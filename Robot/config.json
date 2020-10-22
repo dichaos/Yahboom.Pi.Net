@@ -1,0 +1,40 @@
+﻿{
+    "Buzzer": 8,
+    "LEDSettings": {
+        "Red": 22,
+        "Green": 27,
+        "Blue": 24
+    },
+    "TrackerSettings": {
+        "LeftPin1": 3,
+        "LeftPin2": 5,
+        "RightPin1": 4,
+        "RightPin2": 18
+    },
+    "UltrasonicSettings":{
+        "EchoPin": 0,
+        "TrigPin": 1,
+        "Servo": 23
+    },
+    "CameraSettings":{
+        "CameraHorizontal": 11,
+        "CameraVertical": 9
+    },
+    "MovementSettings": {
+        "Left": {
+            "ENA": 16,
+            "IN1": 20,
+            "IN2": 21
+        },
+        "Right": {
+            "ENA": 13,
+            "IN1": 19,
+            "IN2": 26
+        }
+    },
+    "AudioSettings": {
+        "DeviceIndex" : 1,
+        "SampleRate" : 48000,
+        "Chunk" : 8192
+    }
+}
