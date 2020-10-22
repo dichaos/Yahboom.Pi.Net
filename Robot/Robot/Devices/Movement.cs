@@ -6,7 +6,18 @@ using Robot.Configs;
 
 namespace Robot.Devices
 {
-    public class Movement : IDisposable
+    public interface IMovement : IDisposable
+    {
+        void Forward();
+        void Backward();
+        void TurnLeft();
+        void TurnRight();
+        void SetSpeed(double speed);
+        void Stop();
+        int GetSpeed();
+    }
+
+    public class Movement : IMovement
     {
         private readonly DCMotor _motor1;
         private readonly DCMotor _motor2;
@@ -58,7 +69,12 @@ namespace Robot.Devices
             {
             }
         }
-        
+
+        public int GetSpeed()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Dispose()
         {
             Stop();

@@ -7,7 +7,16 @@ using Robot.Configs;
 
 namespace Robot.Devices
 {
-    public class Camera : IDisposable
+    public interface ICamera : IDisposable
+    {
+        byte[] ReadImage();
+        void SetHorizontalRadiance(int degree);
+        void SetVerticalRadiance(int degree);
+        int GetHorizontal();
+        int GetVertical();
+    }
+
+    public class Camera : IDisposable, ICamera
     {
         private readonly Servo _horizontal;
         private readonly Servo _vertical;
@@ -23,7 +32,6 @@ namespace Robot.Devices
 
         public byte[] ReadImage()
         {
-
             var image = new Mat();
             return _videoCapture.Read(image) ? image.ToImage<Bgr,byte>().ToJpegData() : null;
         }
@@ -36,6 +44,16 @@ namespace Robot.Devices
         public void SetVerticalRadiance(int degree)
         {
             _vertical.SetRadiance(degree);
+        }
+
+        public int GetHorizontal()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetVertical()
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()

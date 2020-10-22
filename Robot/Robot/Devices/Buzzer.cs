@@ -3,7 +3,14 @@ using System.Device.Gpio;
 
 namespace Robot.Devices
 {
-    public class Buzzer
+    public interface IBuzzer
+    {
+        void Start();
+        void Stop();
+        bool GetOnOff();
+    }
+
+    public class Buzzer : IBuzzer
     {
         private GpioController _controller;
         private int  _buzzerPin;
@@ -25,6 +32,11 @@ namespace Robot.Devices
         public void Stop()
         {
             _controller.Write(_buzzerPin, PinValue.High);    
+        }
+
+        public bool GetOnOff()
+        {
+            throw new NotImplementedException();
         }
     }
 }

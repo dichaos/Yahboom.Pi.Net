@@ -3,14 +3,16 @@ using System;
 using System.Linq;
 using OpenAL;
 using Robot.Configs;
-using OpenTK;
 using OpenTK.Audio.OpenAL;
-using OpenTK.OpenAL;
-using OpenTK.Core;
 
 namespace Robot.Devices
 {
-    public class Microphone : IDisposable
+    public interface IMicrophone : IDisposable
+    {
+        short[] Read();
+    }
+
+    public class Microphone : IMicrophone
     {
         private readonly ALCaptureDevice _captureDevice;
         private readonly AudioSettings _settings;

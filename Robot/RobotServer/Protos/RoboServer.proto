@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "Robot";
+
+package Robot;
+
+// The greeting service definition.
+service Robot {
+    rpc GetCurrentState(google.protobuf.Empty) returns (State);
+    rpc Buzz (BuzzValue) returns (Reply);
+    rpc LED (LEDValue) returns (Reply);
+    rpc UltrasonicLeftRight(ServoRequest) returns (Reply);
+    rpc CameraLeftRight(ServoRequest) returns (Reply);
+    rpc CameraUpDown(ServoRequest) returns (Reply);
+    rpc Movement(MovementRequest) returns (Reply);
+  
+    rpc UltrasonicStream (google.protobuf.Empty) returns (stream UltrasonicData);
+    rpc TrackerStream(google.protobuf.Empty) returns (stream TrackerData);
+    rpc VideoStream(google.protobuf.Empty) returns (stream VideoData);
+    rpc AudioStream(google.protobuf.Empty) returns (stream AudioData);
+}
+
+message UltrasonicData {
+    double Value = 1;
+}
+
+message TrackerData {
+    bool LeftPin1 = 1;
+    bool LeftPin2 = 2;
+    bool RightPin1 = 3;
+    bool RightPin2 = 4;
+}
+
+message VideoData {
+    bytes Image = 1;
+}
+
+message AudioData {
+    repeated int32 Data = 1 [packed=true];
+}
+
+
+message State{
+    LEDValue LED = 1;
+    bool Buzz = 2;
+    int32 UltrasonicServo = 3;
+    int32 CameraHorizontal = 4;
+    int32 CameraVertical = 5;
+    int32 MovementSpeed = 6;
+}
+
+message LEDValue {
+    int32 Red = 1;
+    int32 Blue = 2;
+    int32 Green = 3;
+}
+
+message BuzzValue {
+  bool OnOff = 1;
+}
+
+message Reply {
+  bool Success = 1;
+}
+
+message ServoRequest {
+    int32 Degree = 1;
+}
+
+message MovementRequest {
+    enum Direction {
+        FORWARDS = 0;
+        BACKWARDS = 1;
+        LEFT = 2;
+        RIGHT = 3;
+        STOP = 4;
+        SPEED = 5;
+     }
+     
+     Direction MovementDirection = 1;
+     int32 Speed = 2;
+}

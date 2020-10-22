@@ -3,7 +3,16 @@ using Robot.Configs;
 
 namespace Robot.Devices
 {
-    public class LED
+    public interface ILED
+    {
+        void SetRGB(int red, int blue, int green);
+
+        int GetRed();
+        int GetGreen();
+        int GetBlue();
+    }
+
+    public class LED : ILED
     {
         private GpioController _controller;
         private LEDSettings  _ledSettings;
@@ -27,6 +36,21 @@ namespace Robot.Devices
             _controller.Write(_ledSettings.Red, red);
             _controller.Write(_ledSettings.Green, green);
             _controller.Write(_ledSettings.Blue, blue);
+        }
+
+        public int GetRed()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int GetGreen()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int GetBlue()
+        {
+            throw new System.NotImplementedException();
         }
 
         private int GetInRange(int value)

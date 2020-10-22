@@ -4,7 +4,13 @@ using System.Threading.Tasks;
 
 namespace Robot.Devices
 {
-    public class Servo : IDisposable 
+    public interface IServo : IDisposable
+    {
+        void SetRadiance(int degree);
+        void Forward();
+    }
+
+    public class Servo : IServo
     {
         private const long MaxPulseWidth = 2450; //microseconds
         private const long MinPulseWidth = 450; //microseconds

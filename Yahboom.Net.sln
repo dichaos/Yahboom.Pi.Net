@@ -1,8 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robot", "Robot\Robot.csproj", "{EE6C92D2-AABC-4126-9B0A-21A81C9E2DB0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Robot", "Robot", "{5EFF83AC-058B-4DA0-9967-BFDA3F44DA8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "Controller\Controller.csproj", "{360446A7-320D-49DE-A416-96A4EAAA0061}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robot", "Robot\Robot\Robot.csproj", "{8208392C-424A-4E43-9BCE-1350EC5DBF28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotServer", "Robot\RobotServer\RobotServer.csproj", "{DB7EDAF7-ADA8-496E-A358-A55AA45F6931}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controller", "Controller", "{1CC48F27-D761-4FFF-BF32-013F0A5C0157}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "Controller\Controller\Controller.csproj", "{2C6C613C-F2D4-48A8-97F3-1640C65AE45F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllerClient", "Controller\ControllerClient\ControllerClient.csproj", "{49089BF5-08A8-4BFF-A5E1-89B0429AE2A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,13 +18,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EE6C92D2-AABC-4126-9B0A-21A81C9E2DB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE6C92D2-AABC-4126-9B0A-21A81C9E2DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE6C92D2-AABC-4126-9B0A-21A81C9E2DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE6C92D2-AABC-4126-9B0A-21A81C9E2DB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{360446A7-320D-49DE-A416-96A4EAAA0061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{360446A7-320D-49DE-A416-96A4EAAA0061}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{360446A7-320D-49DE-A416-96A4EAAA0061}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{360446A7-320D-49DE-A416-96A4EAAA0061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8208392C-424A-4E43-9BCE-1350EC5DBF28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8208392C-424A-4E43-9BCE-1350EC5DBF28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8208392C-424A-4E43-9BCE-1350EC5DBF28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8208392C-424A-4E43-9BCE-1350EC5DBF28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB7EDAF7-ADA8-496E-A358-A55AA45F6931}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB7EDAF7-ADA8-496E-A358-A55AA45F6931}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB7EDAF7-ADA8-496E-A358-A55AA45F6931}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB7EDAF7-ADA8-496E-A358-A55AA45F6931}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C6C613C-F2D4-48A8-97F3-1640C65AE45F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C6C613C-F2D4-48A8-97F3-1640C65AE45F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C6C613C-F2D4-48A8-97F3-1640C65AE45F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C6C613C-F2D4-48A8-97F3-1640C65AE45F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49089BF5-08A8-4BFF-A5E1-89B0429AE2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49089BF5-08A8-4BFF-A5E1-89B0429AE2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49089BF5-08A8-4BFF-A5E1-89B0429AE2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49089BF5-08A8-4BFF-A5E1-89B0429AE2A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8208392C-424A-4E43-9BCE-1350EC5DBF28} = {5EFF83AC-058B-4DA0-9967-BFDA3F44DA8C}
+		{DB7EDAF7-ADA8-496E-A358-A55AA45F6931} = {5EFF83AC-058B-4DA0-9967-BFDA3F44DA8C}
+		{2C6C613C-F2D4-48A8-97F3-1640C65AE45F} = {1CC48F27-D761-4FFF-BF32-013F0A5C0157}
+		{49089BF5-08A8-4BFF-A5E1-89B0429AE2A3} = {1CC48F27-D761-4FFF-BF32-013F0A5C0157}
 	EndGlobalSection
 EndGlobal

@@ -6,7 +6,15 @@ using Robot.Configs;
 
 namespace Robot.Devices
 {
-    public class Ultrasonic : IDisposable
+    public interface IUltrasonic : IDisposable
+    {
+        double ReadValue();
+        void SetRadiance(int degree);
+        void Forward();
+        int GetRadiance();
+    }
+
+    public class Ultrasonic : IUltrasonic
     {
         private readonly GpioController _gpioController;
         private readonly Servo _servo;
@@ -56,7 +64,12 @@ namespace Robot.Devices
         {
             _servo.SetRadiance(180);
         }
-        
+
+        public int GetRadiance()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Dispose()
         {
             _servo.Dispose();
