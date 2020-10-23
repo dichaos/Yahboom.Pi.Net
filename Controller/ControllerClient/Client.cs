@@ -16,7 +16,8 @@ namespace ControllerClient
         
         public Client(string url)
         {
-            _channel = GrpcChannel.ForAddress(url);  
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            _channel = GrpcChannel.ForAddress(new Uri(url));  
             _client = new Robot.Robot.RobotClient(_channel);
         }
         
@@ -74,6 +75,17 @@ namespace ControllerClient
             return await _client.GetCurrentStateAsync(new Empty());
         }
 
+        public async Task SetLED(int Red, int Green, int Blue)
+        {
+            var response = await _client.LEDAsync(new LEDValue()
+            {
+                Red = Red,
+                Green = Green,
+                Blue = Blue
+            });
+            
+            
+        }
         private Task GetVideo(CancellationToken token, Action<byte[]> processor)
         {
             return new Task(async () =>

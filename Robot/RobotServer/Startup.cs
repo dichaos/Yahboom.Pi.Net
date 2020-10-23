@@ -35,7 +35,7 @@ namespace RobotServer
             }
 
             app.UseRouting();
-            
+            //app.UseGrpcWeb();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<RobotService>();
@@ -80,6 +80,10 @@ namespace RobotServer
 
             builder.RegisterType<Movement>()
                 .As<IMovement>()
+                .SingleInstance();
+
+            builder.RegisterType<Tracker>()
+                .As<ITracker>()
                 .SingleInstance();
 
             builder.RegisterType<Ultrasonic>()
