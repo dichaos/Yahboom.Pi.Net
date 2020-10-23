@@ -4,6 +4,6 @@ namespace RobotServer
 {
     public class RobotServerCofig
     {
-        public RobotSettings robotSettings;
+        public RobotSettings RobotSettings { get; set; }
     }
 }

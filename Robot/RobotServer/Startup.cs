@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Robot.Devices;
-using Buzzer = Iot.Device.Buzzer.Buzzer;
 
 namespace RobotServer
 {
@@ -18,7 +17,7 @@ namespace RobotServer
         public Startup(IConfiguration configuration)
         {
             var conf = configuration.Get<RobotServerCofig>();
-            config = conf.robotSettings;
+            config = conf.RobotSettings;
         }
         
         public void ConfigureServices(IServiceCollection services)
@@ -64,6 +63,7 @@ namespace RobotServer
 
             builder.RegisterType<Robot.Devices.Buzzer>()
                 .As<IBuzzer>()
+                .WithParameter(new TypedParameter(typeof(int), config.Buzzer))
                 .SingleInstance();
 
             builder.RegisterType<LED>()
