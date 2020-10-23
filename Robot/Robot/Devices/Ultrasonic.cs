@@ -67,7 +67,7 @@ namespace Robot.Devices
 
         public int GetRadiance()
         {
-            throw new NotImplementedException();
+            return _servo.GetAngle();
         }
 
         public void Dispose()

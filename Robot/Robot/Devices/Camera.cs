@@ -48,12 +48,12 @@ namespace Robot.Devices
 
         public int GetHorizontal()
         {
-            throw new NotImplementedException();
+            return _horizontal.GetAngle();
         }
 
         public int GetVertical()
         {
-            throw new NotImplementedException();
+            return _vertical.GetAngle();
         }
 
         public void Dispose()

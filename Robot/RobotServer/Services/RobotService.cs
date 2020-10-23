@@ -151,24 +151,6 @@ namespace RobotServer
             }
         }
 
-        public override async Task<State> GetCurrentState(Empty request, ServerCallContext context)
-        {
-            return new State()
-            {
-                Buzz = _buzzer.GetOnOff(),
-                CameraHorizontal = _camera.GetHorizontal(),
-                CameraVertical = _camera.GetVertical(),
-                MovementSpeed = _movement.GetSpeed(),
-                UltrasonicServo = _ultrasonic.GetRadiance(),
-                LED = new LEDValue()
-                {
-                    Red = _led.GetRed(),
-                    Green = _led.GetGreen(),
-                    Blue = _led.GetBlue()
-                }
-            };
-        }
-
         public override async Task AudioStream(Empty request, IServerStreamWriter<AudioData> responseStream, ServerCallContext context)
         {
             while (!context.CancellationToken.IsCancellationRequested)

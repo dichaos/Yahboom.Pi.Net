@@ -86,7 +86,7 @@ namespace ControllerClient
             
             
         }
-        private Task GetVideo(CancellationToken token, Action<byte[]> processor)
+        public Task GetVideo(CancellationToken token, Action<byte[]> processor)
         {
             return new Task(async () =>
             {
@@ -148,7 +148,7 @@ namespace ControllerClient
             });
         }
 
-        private Task GetTrackerValues(CancellationToken token, Action<TrackerData> processor)
+        public Task GetTrackerValues(CancellationToken token, Action<TrackerData> processor)
         {
             return new Task(async () =>
             {

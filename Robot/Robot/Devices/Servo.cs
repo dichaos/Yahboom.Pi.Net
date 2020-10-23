@@ -8,6 +8,7 @@ namespace Robot.Devices
     {
         void SetRadiance(int degree);
         void Forward();
+        int GetAngle();
     }
 
     public class Servo : IServo
@@ -16,6 +17,7 @@ namespace Robot.Devices
         private const long MinPulseWidth = 450; //microseconds
 
         private readonly PWM.PWM _pwm;
+        private int _angle;
         
         public Servo(int pin, GpioController gpioController)
         {
@@ -29,11 +31,18 @@ namespace Robot.Devices
             
             Task.Delay(1000).Wait();
             _pwm.Stop();
+            _angle = degree;
         }
 
         private long RadianceToDytyCycle(int angle)
         {
+            
             return (( (MaxPulseWidth-MinPulseWidth) * angle) / 360) + MinPulseWidth;
+        }
+
+        public int GetAngle()
+        {
+            return _angle;
         }
 
         public void Forward() => SetRadiance(90);

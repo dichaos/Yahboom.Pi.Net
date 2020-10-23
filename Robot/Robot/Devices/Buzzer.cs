@@ -14,6 +14,7 @@ namespace Robot.Devices
     {
         private GpioController _controller;
         private int  _buzzerPin;
+        private bool _onOff;
         
         public Buzzer(int buzzer, GpioController controller)
         {
@@ -27,16 +28,18 @@ namespace Robot.Devices
         public void Start()
         {
             _controller.Write(_buzzerPin, PinValue.Low);
+            _onOff = true;
         }
 
         public void Stop()
         {
-            _controller.Write(_buzzerPin, PinValue.High);    
+            _controller.Write(_buzzerPin, PinValue.High);
+            _onOff = false;
         }
 
         public bool GetOnOff()
         {
-            throw new NotImplementedException();
+            return _onOff;
         }
     }
 }

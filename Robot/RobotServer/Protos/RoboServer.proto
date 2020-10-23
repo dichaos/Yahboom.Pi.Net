@@ -8,7 +8,6 @@ package Robot;
 
 // The greeting service definition.
 service Robot {
-    rpc GetCurrentState(google.protobuf.Empty) returns (State);
     rpc Buzz (BuzzValue) returns (Reply);
     rpc LED (LEDValue) returns (Reply);
     rpc UltrasonicLeftRight(ServoRequest) returns (Reply);
@@ -39,16 +38,6 @@ message VideoData {
 
 message AudioData {
     repeated int32 Data = 1 [packed=true];
-}
-
-
-message State{
-    LEDValue LED = 1;
-    bool Buzz = 2;
-    int32 UltrasonicServo = 3;
-    int32 CameraHorizontal = 4;
-    int32 CameraVertical = 5;
-    int32 MovementSpeed = 6;
 }
 
 message LEDValue {

@@ -72,7 +72,7 @@ namespace Robot.Devices
 
         public int GetSpeed()
         {
-            throw new NotImplementedException();
+            return (int)_motor1.Speed;
         }
 
         public void Dispose()

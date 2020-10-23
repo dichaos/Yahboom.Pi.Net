@@ -16,7 +16,7 @@ namespace Robot.Devices
     {
         private GpioController _controller;
         private LEDSettings  _ledSettings;
-        
+
         public LED(LEDSettings ledSettings, GpioController controller)
         {
             _ledSettings = ledSettings;
@@ -36,21 +36,22 @@ namespace Robot.Devices
             _controller.Write(_ledSettings.Red, red);
             _controller.Write(_ledSettings.Green, green);
             _controller.Write(_ledSettings.Blue, blue);
+
         }
 
         public int GetRed()
         {
-            throw new System.NotImplementedException();
+            return (int)_controller.Read(_ledSettings.Red);
         }
 
         public int GetGreen()
         {
-            throw new System.NotImplementedException();
+            return (int)_controller.Read(_ledSettings.Green);
         }
 
         public int GetBlue()
         {
-            throw new System.NotImplementedException();
+            return (int)_controller.Read(_ledSettings.Blue);
         }
 
         private int GetInRange(int value)
