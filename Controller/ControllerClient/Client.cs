@@ -70,10 +70,6 @@ namespace ControllerClient
             });
         }
 
-        public async Task<State> GetRobotState()
-        {
-            return await _client.GetCurrentStateAsync(new Empty());
-        }
 
         public async Task SetLED(int Red, int Green, int Blue)
         {

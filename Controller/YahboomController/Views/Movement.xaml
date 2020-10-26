@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="YahboomController.Views.Movement">
+    <Border BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="8,8,8,8">
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            
+            <Button Name="UpButton" Grid.Row="0" Grid.Column="1"><Image Source="/Assets/up.png"/></Button>
+            <Button Name="LeftButton" Grid.Row="1" Grid.Column="0"><Image Source="/Assets/left.png"/></Button>
+            <Button Name="RightButton" Grid.Row="1" Grid.Column="2"><Image Source="/Assets/right.png"/></Button>
+            <Button Name="DownButton" Grid.Row="2" Grid.Column="1"><Image Source="/Assets/down.png"/></Button>
+            
+            <Grid Grid.Row = "0" Grid.Column = "3" Grid.RowSpan="3" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="17*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Speed" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
+                <Slider Name="SpeedSlider"
+                        Grid.Row="1" 
+                        Grid.Column="0" 
+                        Minimum="0" 
+                        Maximum="100" 
+                        Value="50" 
+                        TickFrequency="1" 
+                        IsSnapToTickEnabled="False" 
+                        Orientation="Vertical"
+                        HorizontalAlignment="Center"></Slider>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
