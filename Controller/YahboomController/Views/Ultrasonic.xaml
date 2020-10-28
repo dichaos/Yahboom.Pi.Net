@@ -2,7 +2,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d"
              x:Class="YahboomController.Views.Ultrasonic">
-  Welcome to Avalonia!
+    <Border Classes="Card">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width = "70"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+    
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan = "2" Classes="Heading" Text="Ultrasonic Sensor" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Classes="Caption" Text="Direction:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+    
+            <Slider Name="UltrasonicSlider"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Minimum="0"
+                    Maximum="180"
+                    Value="90"
+                    TickFrequency="1"
+                    IsSnapToTickEnabled="False"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Width="290"/>
+    
+            <TextBlock Grid.Row="2" Grid.Column="0" Classes="Caption" Text="Distance:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBlock Name="Distance" Grid.Row="2" Grid.Column="1" Classes="Caption" Text="0cm" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        </Grid>
+    </Border>
 </UserControl>

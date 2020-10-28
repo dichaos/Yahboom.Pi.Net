@@ -1,7 +1,5 @@
-﻿using System;
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Logging.Serilog;
+﻿using Avalonia;
+using Avalonia.Logging;
 using Avalonia.ReactiveUI;
 
 namespace YahboomController
@@ -18,7 +16,7 @@ namespace YahboomController
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToDebug()
+                .LogToTrace(LogEventLevel.Error)
                 .UseReactiveUI();
     }
 }
