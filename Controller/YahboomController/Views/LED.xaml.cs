@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using DynamicData.Binding;
 using ReactiveUI;
+using YahboomController.ViewModels;
 
 namespace YahboomController.Views
 {
@@ -47,18 +48,21 @@ namespace YahboomController.Views
         {
             _RedTextBlock.Background = new SolidColorBrush(new Color(255, (byte) value, 0, 0));
             _ColorTextBlock.Background = new SolidColorBrush(new Color(255, (byte)_RedSlider.Value, (byte)_GreenSlider.Value, (byte)_BlueSlider.Value));
+            ((LEDViewModel) this.DataContext)?.Client.SetLED((int) _RedSlider.Value, (int) _GreenSlider.Value, (int) _BlueSlider.Value);
         }
         
         private void ChangeGreen(double value)
         {
             _GreenTextBlock.Background = new SolidColorBrush(new Color(255, 0, (byte) value, 0));
             _ColorTextBlock.Background = new SolidColorBrush(new Color(255, (byte)_RedSlider.Value, (byte)_GreenSlider.Value, (byte)_BlueSlider.Value));
+            ((LEDViewModel) this.DataContext)?.Client.SetLED((int) _RedSlider.Value, (int) _GreenSlider.Value, (int) _BlueSlider.Value);
         }
 
         private void ChangeBlue(double value)
         {
             _BlueTextBlock.Background =new SolidColorBrush(new Color(255,0, 0, (byte)value));
             _ColorTextBlock.Background = new SolidColorBrush(new Color(255, (byte)_RedSlider.Value, (byte)_GreenSlider.Value, (byte)_BlueSlider.Value));
+            ((LEDViewModel) this.DataContext)?.Client.SetLED((int) _RedSlider.Value, (int) _GreenSlider.Value, (int) _BlueSlider.Value);
         }
     }
 }

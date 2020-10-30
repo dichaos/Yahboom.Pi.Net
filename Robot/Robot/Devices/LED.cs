@@ -36,7 +36,6 @@ namespace Robot.Devices
             _controller.Write(_ledSettings.Red, red);
             _controller.Write(_ledSettings.Green, green);
             _controller.Write(_ledSettings.Blue, blue);
-
         }
 
         public int GetRed()

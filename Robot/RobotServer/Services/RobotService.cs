@@ -39,26 +39,22 @@ namespace RobotServer.Services
         
         public override async Task<Reply> Movement(MovementRequest request, ServerCallContext context)
         {
-            var t = new Task<Reply>(() => {return _movement.Movement(request); });
-            return await t;
+            return _movement.Movement(request);
         }
 
         public override async Task<Reply> Buzz(BuzzValue request, ServerCallContext context)
         {
-            var t = new Task<Reply>(() => {return _buzzer.Buzz(request); });
-            return await t;
+            return _buzzer.Buzz(request);
         }
         
         public override async Task<Reply> CameraLeftRight(ServoRequest request, ServerCallContext context)
         {
-            var t = new Task<Reply>(() => {return _camera.CameraLeftRight(request); });
-            return await t;
+            return _camera.CameraLeftRight(request);
         }
         
         public override async Task<Reply> CameraUpDown(ServoRequest request, ServerCallContext context)
         {
-            var t = new Task<Reply>(() => {return _camera.CameraUpDown(request); });
-            return await t;
+            return _camera.CameraUpDown(request);
         }
         
         public override async Task VideoStream(Empty request, IServerStreamWriter<VideoData> responseStream, ServerCallContext context)
@@ -68,8 +64,7 @@ namespace RobotServer.Services
         
         public override async Task<Reply> UltrasonicLeftRight(ServoRequest request, ServerCallContext context)
         {
-            var t = new Task<Reply>(() => {return _ultrasonic.UltrasonicLeftRight(request); });
-            return await t;
+            return _ultrasonic.UltrasonicLeftRight(request);
         }
         
         public override async Task UltrasonicStream(Empty request, IServerStreamWriter<UltrasonicData> responseStream, ServerCallContext context)
@@ -79,8 +74,7 @@ namespace RobotServer.Services
         
         public override async Task<Reply> LED(LEDValue request, ServerCallContext context)
         {
-            var t = new Task<Reply>(() => {return _led.LED(request); });
-            return await t;
+            return _led.LED(request);
         }
 
         public override async Task AudioStream(Empty request, IServerStreamWriter<AudioData> responseStream, ServerCallContext context)

@@ -78,8 +78,6 @@ namespace YahboomController
                 Green = Green,
                 Blue = Blue
             });
-            
-            
         }
         public Task GetVideo(CancellationToken token, Action<byte[]> processor)
         {
