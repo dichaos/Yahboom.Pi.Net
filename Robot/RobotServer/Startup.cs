@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Robot.Devices;
+using RobotServer.ServiceItems;
 using RobotServer.Services;
 
 namespace RobotServer
@@ -56,6 +57,34 @@ namespace RobotServer
             builder.Register(p => config.TrackerSettings).SingleInstance();
             builder.Register(p => config.UltrasonicSettings).SingleInstance();
             builder.Register(p => config.LEDSettings).SingleInstance();
+
+            builder.RegisterType<AudioServiceItem>()
+                .As<IAudioServiceItem>()
+                .SingleInstance();
+            
+            builder.RegisterType<BuzzServiceItem>()
+                .As<IBuzzServiceItem>()
+                .SingleInstance();
+            
+            builder.RegisterType<CameraServiceItem>()
+                .As<ICameraServiceItem>()
+                .SingleInstance();
+            
+            builder.RegisterType<MovementServiceItem>()
+                .As<IMovementServiceItem>()
+                .SingleInstance();
+            
+            builder.RegisterType<RGBServiceItem>()
+                .As<IRGBServiceItem>()
+                .SingleInstance();
+            
+            builder.RegisterType<TrackerServiceItem>()
+                .As<ITrackerServiceItem>()
+                .SingleInstance();
+            
+            builder.RegisterType<UltrasonicServiceItem>()
+                .As<IUltrasonicServiceItem>()
+                .SingleInstance();
 
             builder.RegisterType<GpioController>()
                     .WithParameter(new TypedParameter(typeof(PinNumberingScheme), PinNumberingScheme.Logical))

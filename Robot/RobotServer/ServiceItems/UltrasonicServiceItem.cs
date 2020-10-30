@@ -2,8 +2,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Grpc.Core;
+using Microsoft.Extensions.Logging;
 using Robot.Devices;
 using RobotControllerContract;
+using RobotServer.Services;
 
 namespace RobotServer.ServiceItems
 {
@@ -13,11 +15,11 @@ namespace RobotServer.ServiceItems
         Task UltrasonicStream(IServerStreamWriter<UltrasonicData> responseStream, CancellationToken token);
     }
 
-    public class UltrasonicServiceItem : IUltrasonicServiceItem
+    public class UltrasonicServiceItem : ServiceItemBase, IUltrasonicServiceItem
     {
         private readonly IUltrasonic _ultrasonic;
 
-        public UltrasonicServiceItem(IUltrasonic ultrasonic)
+        public UltrasonicServiceItem(ILogger<RobotService> logger, IUltrasonic ultrasonic):base(logger)
         {
             _ultrasonic = ultrasonic;
         }
@@ -31,7 +33,7 @@ namespace RobotServer.ServiceItems
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.Log(LogLevel.Error, ex, "Error reading ultrasonic value");
                 return new Reply() {Success = false};
             }
         }

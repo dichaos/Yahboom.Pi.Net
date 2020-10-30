@@ -1,6 +1,8 @@
 using System;
+using Microsoft.Extensions.Logging;
 using Robot.Devices;
 using RobotControllerContract;
+using RobotServer.Services;
 
 namespace RobotServer.ServiceItems
 {
@@ -9,11 +11,11 @@ namespace RobotServer.ServiceItems
         Reply Buzz(BuzzValue request);
     }
 
-    public class BuzzServiceItem : IBuzzServiceItem
+    public class BuzzServiceItem : ServiceItemBase, IBuzzServiceItem
     {
         public IBuzzer _buzzer;
         
-        public BuzzServiceItem(IBuzzer buzzer)
+        public BuzzServiceItem(ILogger<RobotService> logger, IBuzzer buzzer):base(logger)
         {
             _buzzer = buzzer;
         }
@@ -33,7 +35,7 @@ namespace RobotServer.ServiceItems
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.Log(LogLevel.Error, ex, "Error in buzzer");
                 return new Reply() {Success = false};
             }
         }

@@ -100,7 +100,7 @@ namespace YahboomController
                     }
                     catch (RpcException exc)
                     {
-                        Console.WriteLine(exc.Message);
+                        Console.WriteLine(exc);
                     }
                 }
             });

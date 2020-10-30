@@ -1,6 +1,8 @@
 using System;
+using Microsoft.Extensions.Logging;
 using Robot.Devices;
 using RobotControllerContract;
+using RobotServer.Services;
 
 namespace RobotServer.ServiceItems
 {
@@ -9,11 +11,11 @@ namespace RobotServer.ServiceItems
         Reply LED(LEDValue request);
     }
 
-    public class RGBServiceItem : IRGBServiceItem
+    public class RGBServiceItem : ServiceItemBase, IRGBServiceItem
     {
         private readonly ILED _led;
 
-        public RGBServiceItem(ILED led)
+        public RGBServiceItem(ILogger<RobotService> logger, ILED led):base(logger)
         {
             _led = led;
         }
@@ -27,7 +29,7 @@ namespace RobotServer.ServiceItems
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.Log(LogLevel.Error, ex, "Error setting RGB");
                 return new Reply() {Success = false};
             }
         }

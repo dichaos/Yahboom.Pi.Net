@@ -63,8 +63,7 @@ namespace RobotServer.Services
         
         public override async Task VideoStream(Empty request, IServerStreamWriter<VideoData> responseStream, ServerCallContext context)
         {
-            var t = Task.Run(() => {_camera.VideoStream(responseStream, context.CancellationToken); });
-            await t;
+            await _camera.VideoStream(responseStream, context.CancellationToken);
         }
         
         public override async Task<Reply> UltrasonicLeftRight(ServoRequest request, ServerCallContext context)
@@ -75,8 +74,7 @@ namespace RobotServer.Services
         
         public override async Task UltrasonicStream(Empty request, IServerStreamWriter<UltrasonicData> responseStream, ServerCallContext context)
         {
-            var t = Task.Run(() => { _ultrasonic.UltrasonicStream(responseStream, context.CancellationToken); });
-            await t;
+            await _ultrasonic.UltrasonicStream(responseStream, context.CancellationToken);
         }
         
         public override async Task<Reply> LED(LEDValue request, ServerCallContext context)
@@ -87,14 +85,12 @@ namespace RobotServer.Services
 
         public override async Task AudioStream(Empty request, IServerStreamWriter<AudioData> responseStream, ServerCallContext context)
         {
-            var t = new Task(() => _microphone.AudioStream(responseStream, context.CancellationToken));
-            await t;
+            await _microphone.AudioStream(responseStream, context.CancellationToken);
         }
 
-        public override async Task TrackerStream(Empty request, IServerStreamWriter<TrackerData> responseStream, ServerCallContext context)
+        public override async Task TrackerStream(Empty request, IServerStreamWriter<RobotControllerContract.TrackerData> responseStream, ServerCallContext context)
         {
-            var t = Task.Run(() => { _tracker.TrackerStream(responseStream, context.CancellationToken); });
-            await t;
+            await _tracker.TrackerStream(responseStream, context.CancellationToken);
         }
     }
 }

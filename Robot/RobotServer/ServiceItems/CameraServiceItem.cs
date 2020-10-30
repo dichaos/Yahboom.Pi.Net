@@ -3,8 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using Grpc.Core;
+using Microsoft.Extensions.Logging;
 using Robot.Devices;
 using RobotControllerContract;
+using RobotServer.Services;
 
 namespace RobotServer.ServiceItems
 {
@@ -15,11 +17,11 @@ namespace RobotServer.ServiceItems
         Task VideoStream(IServerStreamWriter<VideoData> responseStream, CancellationToken token);
     }
 
-    public class CameraServiceItem : ICameraServiceItem
+    public class CameraServiceItem : ServiceItemBase, ICameraServiceItem
     {
         public readonly ICamera _camera;
         
-        public CameraServiceItem(ICamera camera)
+        public CameraServiceItem(ILogger<RobotService> logger, ICamera camera):base(logger)
         {
             _camera = camera;
         }
@@ -33,7 +35,7 @@ namespace RobotServer.ServiceItems
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.Log(LogLevel.Error, ex, "Error turning camera horizontally");
                 return new Reply() {Success = false};
             }
         }
@@ -47,7 +49,7 @@ namespace RobotServer.ServiceItems
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.Log(LogLevel.Error, ex, "Error turning camera vertically");
                 return new Reply() {Success = false};
             }
         }
@@ -56,10 +58,17 @@ namespace RobotServer.ServiceItems
         {
             while (!token.IsCancellationRequested)
             {
-                await responseStream.WriteAsync(new VideoData()
+                try
                 {
-                    Image = ByteString.CopyFrom(_camera.ReadImage())
-                });
+                    await responseStream.WriteAsync(new VideoData()
+                    {
+                        Image = ByteString.CopyFrom(_camera.ReadImage())
+                    });
+                }
+                catch (Exception ex)
+                {
+                    _logger.Log(LogLevel.Error, ex, "Error reading video");
+                }
 
                 Task.Delay(16).Wait();
             }
