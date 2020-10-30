@@ -42,12 +42,19 @@ namespace RobotServer.ServiceItems
         {
             while (!token.IsCancellationRequested)
             {
-                await responseStream.WriteAsync(new UltrasonicData()
+                try
                 {
-                    Value = _ultrasonic.ReadValue() 
-                });
+                    await responseStream.WriteAsync(new UltrasonicData()
+                    {
+                        Value = _ultrasonic.ReadValue()
+                    });
+                }
+                catch (Exception ex)
+                {
+                    _logger.Log(LogLevel.Error, ex, "Error reading ultrasonic");
+                }
 
-                Task.Delay(1000).Wait();
+                Task.Delay(TimeSpan.FromSeconds(1), token).Wait(token);
             }
         }
     }

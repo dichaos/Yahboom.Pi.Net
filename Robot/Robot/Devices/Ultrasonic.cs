@@ -34,23 +34,25 @@ namespace Robot.Devices
         public double ReadValue()
         {
             _gpioController.Write(_settings.TrigPin, PinValue.High);
-            Task.Delay(1).Wait();
+            Task.Delay(TimeSpan.FromMilliseconds(1)).Wait();
             _gpioController.Write(_settings.TrigPin, PinValue.Low);
-
-            while (_gpioController.Read(_settings.EchoPin) == PinValue.Low)
-            {
-            }
 
             var delay = new Stopwatch();
             delay.Start();
-                
+            
+            while (_gpioController.Read(_settings.EchoPin) == PinValue.Low)
+            {
+                delay = new Stopwatch();
+                delay.Start();
+            }
+
             while(_gpioController.Read(_settings.EchoPin) == PinValue.High)
                 delay.Stop();
             
             //multiply with the sonic speed (34300 cm/s)
             //and divide by 2, because there and back
 
-            var distance = (delay.Elapsed.TotalSeconds * 3400) / 2;
+            var distance = (delay.Elapsed.TotalSeconds * 34300) / 2;
 
             return distance;
         }

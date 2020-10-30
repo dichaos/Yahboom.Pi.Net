@@ -64,7 +64,8 @@
                     TickFrequency="5" 
                     IsSnapToTickEnabled="False" 
                     Orientation="Vertical"
-                    HorizontalAlignment="Center"></Slider>
+                    HorizontalAlignment="Center"
+            ></Slider>
         </Grid>
     </Border>
 </UserControl>
