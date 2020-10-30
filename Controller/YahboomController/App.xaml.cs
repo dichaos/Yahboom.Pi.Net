@@ -19,7 +19,8 @@ namespace YahboomController
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = new MainWindowViewModel(new Client("http://192.168.1.28:5000")),
+                    //DataContext = new MainWindowViewModel(new Client("http://127.0.0.1:5001")),
                 };
             }
 

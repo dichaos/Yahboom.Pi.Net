@@ -1,0 +1,57 @@
+using System;
+using Robot.Devices;
+using RobotControllerContract;
+
+namespace RobotServer.ServiceItems
+{
+    public interface IMovementServiceItem
+    {
+        Reply Movement(MovementRequest request);
+    }
+
+    public class MovementServiceItem : IMovementServiceItem
+    {
+        private readonly IMovement _movement;
+        
+        public MovementServiceItem(IMovement movement)
+        {
+            _movement = movement;
+        }
+        
+        public Reply Movement(MovementRequest request)
+        {
+            
+                try
+                {
+                    switch (request.MovementDirection)
+                    {
+                        case MovementRequest.Types.Direction.Forwards:
+                            _movement.Forward();
+                            break;
+                        case MovementRequest.Types.Direction.Backwards:
+                            _movement.Backward();
+                            break;
+                        case MovementRequest.Types.Direction.Left:
+                            _movement.TurnLeft();
+                            break;
+                        case MovementRequest.Types.Direction.Right:
+                            _movement.TurnRight();
+                            break;
+                        case MovementRequest.Types.Direction.Stop:
+                            _movement.Stop();
+                            break;
+                        case MovementRequest.Types.Direction.Speed:
+                            _movement.SetSpeed(request.Speed);
+                            break;
+                    }
+
+                    return new Reply() {Success = true};
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return new Reply() {Success = false};
+                }
+        }
+    }
+}

@@ -1,24 +1,24 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
-using Robot;
+using RobotControllerContract;
+using System.Linq;
 
-namespace ControllerClient
+namespace YahboomController
 {
     public class Client : IDisposable
     {
         private readonly GrpcChannel _channel;
-        private readonly Robot.Robot.RobotClient _client;
+        private readonly RobotControllerContract.Robot.RobotClient _client;
         
         public Client(string url)
         {
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             _channel = GrpcChannel.ForAddress(new Uri(url));  
-            _client = new Robot.Robot.RobotClient(_channel);
+            _client = new RobotControllerContract.Robot.RobotClient(_channel);
         }
         
         public async Task Buzz(bool onOff)
@@ -70,7 +70,6 @@ namespace ControllerClient
             });
         }
 
-
         public async Task SetLED(int Red, int Green, int Blue)
         {
             var response = await _client.LEDAsync(new LEDValue()
@@ -87,19 +86,22 @@ namespace ControllerClient
             return new Task(async () =>
             {
                 using var videoStream = _client.VideoStream(new Empty(), null, null, token);
-                
-                try
+
+                while (!token.IsCancellationRequested)
                 {
-                    await foreach (var item in  videoStream.ResponseStream.ReadAllAsync(token))
+                    try
                     {
-                        var bytes = new byte[item.Image.Length];
-                        item.Image.CopyTo(bytes, 0);
-                        processor(bytes);
+                        await foreach (var item in videoStream.ResponseStream.ReadAllAsync(token))
+                        {
+                            var bytes = new byte[item.Image.Length];
+                            item.Image.CopyTo(bytes, 0);
+                            processor(bytes);
+                        }
                     }
-                }
-                catch(RpcException exc)
-                {
-                    Console.WriteLine(exc.Message);
+                    catch (RpcException exc)
+                    {
+                        Console.WriteLine(exc.Message);
+                    }
                 }
             });
         }
@@ -130,16 +132,19 @@ namespace ControllerClient
             {
                 using var ultrasonicStream = _client.UltrasonicStream(new Empty(), null, null, token);
 
-                try
+                while (!token.IsCancellationRequested)
                 {
-                    await foreach (var item in ultrasonicStream.ResponseStream.ReadAllAsync(token))
+                    try
                     {
-                        processor(item.Value);
+                        await foreach (var item in ultrasonicStream.ResponseStream.ReadAllAsync(token))
+                        {
+                            processor(item.Value);
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
             });
         }
@@ -150,16 +155,19 @@ namespace ControllerClient
             {
                 using var trackerStream = _client.TrackerStream(new Empty(), null, null, token);
 
-                try
+                while (!token.IsCancellationRequested)
                 {
-                    await foreach (var item in trackerStream.ResponseStream.ReadAllAsync(token))
+                    try
                     {
-                        processor(item);
+                        await foreach (var item in trackerStream.ResponseStream.ReadAllAsync(token))
+                        {
+                            processor(item);
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
             });
         }

@@ -33,7 +33,7 @@
                     Width="290"/>
     
             <TextBlock Grid.Row="2" Grid.Column="0" Classes="Caption" Text="Distance:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <TextBlock Name="Distance" Grid.Row="2" Grid.Column="1" Classes="Caption" Text="0cm" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBlock Name="Distance" Grid.Row="2" Grid.Column="1" Classes="Caption" Text="{Binding UltrasonicValue}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </UserControl>

@@ -16,6 +16,7 @@ namespace YahboomController
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
+                .UseReactiveUI()
                 .LogToTrace(LogEventLevel.Error)
                 .UseReactiveUI();
     }

@@ -1,6 +1,8 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using YahboomController.ViewModels;
 
 namespace YahboomController.Views
 {
@@ -14,6 +16,12 @@ namespace YahboomController.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+        }
+        
+        protected override void OnClosed(EventArgs e)
+        {
+            ((MainWindowViewModel) DataContext)?.Stop();
+            base.OnClosed(e);
         }
     }
 }

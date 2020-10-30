@@ -22,10 +22,10 @@
             <TextBlock Grid.Column="1" Grid.Row="1" Classes="Caption" Text="Left Pin 2"  Margin="1,1,1,1"/>
             <TextBlock Grid.Column="2" Grid.Row="1" Classes="Caption" Text="Right Pin 1"  Margin="1,1,1,1"/>
             <TextBlock Grid.Column="3" Grid.Row="1" Classes="Caption" Text="Right Pin 2"  Margin="1,1,1,1"/>
-            <TextBlock Name="LeftPin1" Grid.Column="0" Grid.Row="2" Background="Red" Margin="1,1,1,1"/>
-            <TextBlock Name="LeftPin2" Grid.Column="1" Grid.Row="2" Background="Red" Margin="1,1,1,1"/>
-            <TextBlock Name="RightPin1" Grid.Column="2" Grid.Row="2" Background="Red" Margin="1,1,1,1"/>
-            <TextBlock Name="RightPin2" Grid.Column="3" Grid.Row="2" Background="Red" Margin="1,1,1,1"/>
+            <TextBlock Name="LeftPin1" Grid.Column="0" Grid.Row="2" Background="{Binding LeftPin1}" Margin="1,1,1,1"/>
+            <TextBlock Name="LeftPin2" Grid.Column="1" Grid.Row="2" Background="{Binding LeftPin2}" Margin="1,1,1,1"/>
+            <TextBlock Name="RightPin1" Grid.Column="2" Grid.Row="2" Background="{Binding RightPin1}" Margin="1,1,1,1"/>
+            <TextBlock Name="RightPin2" Grid.Column="3" Grid.Row="2" Background="{Binding RightPin2}" Margin="1,1,1,1"/>
         </Grid>
     </Border>
 </UserControl>

@@ -52,7 +52,9 @@
                     Height="600"
                     ></Slider>
             
-            <StackPanel Grid.Row="2" Grid.Column="1" Background="Red" Width="800" Height="600"></StackPanel>
+            <Image Grid.Row="2" Grid.Column="1" Width="800"
+                   Height="600"
+                   Source="{Binding Image}" />
         </Grid>
     </Border>
 </UserControl>

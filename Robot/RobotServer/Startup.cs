@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Robot.Devices;
+using RobotServer.Services;
 
 namespace RobotServer
 {
@@ -34,7 +35,6 @@ namespace RobotServer
             }
 
             app.UseRouting();
-            //app.UseGrpcWeb();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<RobotService>();

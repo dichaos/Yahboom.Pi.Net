@@ -5,17 +5,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="Protos\RoboServer.proto" GrpcServices="Server" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Autofac" Version="6.0.0" />
-        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.0.2" />
-        <PackageReference Include="Grpc.AspNetCore" Version="2.24.0" />
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.33.1" />
         <PackageReference Include="System.Device.Gpio" Version="1.1.0-prerelease.20276.1" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Contract\Contract.csproj" />
       <ProjectReference Include="..\Robot\Robot.csproj" />
     </ItemGroup>
 
