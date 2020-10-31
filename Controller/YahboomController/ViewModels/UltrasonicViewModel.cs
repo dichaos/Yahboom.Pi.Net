@@ -5,13 +5,11 @@ using ReactiveUI;
 
 namespace YahboomController.ViewModels
 {
-    public class UltrasonicViewModel : ViewModelBase
+    public class UltrasonicViewModel : ClientViewModel
     {
         private string _ultrasonicValue;
-        private readonly Client _client;
-        public UltrasonicViewModel(CancellationToken token,  Client c)
+        public UltrasonicViewModel(CancellationToken token,  Client c):base(c)
         {
-            _client = c;
             var task = c.GetUltrasonic(token, Process);
             task.Start();
         }
@@ -19,11 +17,6 @@ namespace YahboomController.ViewModels
         private void Process(double value)
         {
             UltrasonicValue = value+"cm";
-        }
-
-        public Client Client
-        {
-            get => _client;
         }
 
         public string UltrasonicValue
@@ -34,7 +27,7 @@ namespace YahboomController.ViewModels
 
         public async Task SetAngle(int angle)
         {
-            await _client.SetUltrasonic(angle);
+            await Client.SetUltrasonic(angle);
         }
     }
 }

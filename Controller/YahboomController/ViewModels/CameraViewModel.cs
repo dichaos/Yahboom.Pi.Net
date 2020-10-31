@@ -6,22 +6,14 @@ using ReactiveUI;
 
 namespace YahboomController.ViewModels
 {
-    public class CameraViewModel : ViewModelBase
+    public class CameraViewModel : ClientViewModel
     {
-        private Client _client;
         private IBitmap _latBitmap;
         
-        public CameraViewModel(CancellationToken token,  Client c)
+        public CameraViewModel(CancellationToken token,  Client c):base(c)
         {
-            _client = c;
-            
             var task = c.GetVideo(token, Process);
             task.Start();
-        }
-
-        public Client Client
-        {
-            get { return _client; }
         }
 
         private void Process(byte[] image)
@@ -40,12 +32,12 @@ namespace YahboomController.ViewModels
 
         public async Task SetHorizontal(int angle)
         {
-            await _client.SetCameraHorizontal(angle);
+            await Client.SetCameraHorizontal(angle);
         }
         
         public async Task SetVertical(int angle)
         {
-            await _client.SetCameraVertical(angle);
+            await Client.SetCameraVertical(angle);
         }
     }
 }

@@ -2,11 +2,11 @@ using System;
 
 namespace YahboomController.ViewModels
 {
-    public class LEDViewModel : ViewModelBase
+    public class ClientViewModel : ViewModelBase
     {
         public Client Client { get; private set; }
 
-        public LEDViewModel(Client c)
+        public ClientViewModel(Client c)
         {
             Client = c;
         }

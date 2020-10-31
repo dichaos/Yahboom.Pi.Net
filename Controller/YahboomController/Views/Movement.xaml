@@ -19,10 +19,10 @@
                 <RowDefinition Height="100" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Classes="Heading" Text="Robot Movement" />
-            <Button Name="UpButton" Grid.Row="1" Grid.Column="1" Classes="Primary"><Image Source="/Assets/up.png"/></Button>
-            <Button Name="LeftButton" Grid.Row="2" Grid.Column="0" Classes="Primary"><Image Source="/Assets/left.png"/></Button>
-            <Button Name="RightButton" Grid.Row="2" Grid.Column="2" Classes="Primary"><Image Source="/Assets/right.png"/></Button>
-            <Button Name="DownButton" Grid.Row="3" Grid.Column="1" Classes="Primary"><Image Source="/Assets/down.png"/></Button>
+            <Button Name="UpButton" Grid.Row="1" Grid.Column="1" Classes="Primary"><Image Source="/Assets/up.png" PointerPressed="PointerDownEvent" PointerReleased="PointerUpEvent"/></Button>
+            <Button Name="LeftButton" Grid.Row="2" Grid.Column="0" Classes="Primary"><Image Source="/Assets/left.png" PointerPressed="PointerDownEvent" PointerReleased="PointerUpEvent"/></Button>
+            <Button Name="RightButton" Grid.Row="2" Grid.Column="2" Classes="Primary"><Image Source="/Assets/right.png" PointerPressed="PointerDownEvent" PointerReleased="PointerUpEvent"/></Button>
+            <Button Name="DownButton" Grid.Row="3" Grid.Column="1" Classes="Primary"><Image Source="/Assets/down.png" PointerPressed="PointerDownEvent" PointerReleased="PointerUpEvent"/></Button>
             
             <Grid Grid.Row = "1" Grid.Column = "3" Grid.RowSpan="3" >
                 <Grid.ColumnDefinitions>

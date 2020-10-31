@@ -8,7 +8,7 @@ namespace YahboomController.ViewModels
         public UltrasonicViewModel Ultrasonic { get; private set; }
         public TrackerViewModel Tracker { get; private set; }
         public CameraViewModel Camera { get; private set; }
-        public LEDViewModel Led { get; private set; }
+        public ClientViewModel Client { get; private set; }
         
         public MainWindowViewModel(Client c)
         {
@@ -16,7 +16,7 @@ namespace YahboomController.ViewModels
             Ultrasonic = new UltrasonicViewModel(source.Token, c);
             Tracker = new TrackerViewModel(source.Token, c);
             Camera = new CameraViewModel(source.Token, c);
-            Led = new LEDViewModel(c);
+            Client = new ClientViewModel(c);
         }
 
         public void Stop()

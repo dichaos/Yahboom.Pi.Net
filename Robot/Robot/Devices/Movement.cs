@@ -30,14 +30,14 @@ namespace Robot.Devices
 
         public void Forward()
         {
-            _motor1.Forwards();
-            _motor2.Forwards();
+            _motor1.Backwards();
+            _motor2.Backwards();
         }
 
         public void Backward()
         {
-            _motor1.Backwards();
-            _motor2.Backwards();
+            _motor1.Forwards();
+            _motor2.Forwards();
         }
 
         public void TurnLeft()
