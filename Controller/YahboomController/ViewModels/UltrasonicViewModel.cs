@@ -21,6 +21,11 @@ namespace YahboomController.ViewModels
             UltrasonicValue = value+"cm";
         }
 
+        public Client Client
+        {
+            get => _client;
+        }
+
         public string UltrasonicValue
         {
             get => _ultrasonicValue;
