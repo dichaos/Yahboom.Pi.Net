@@ -36,55 +36,32 @@ namespace Robot.PWM
             long _highPulse = pulse;
             long _lowPulse = _maxPulseCycle - pulse;
 
-            _highTicker= new Ticker(SetHigh)
+            _highTicker = new Ticker(_highPulse);
+            _lowTicker = new Ticker(_lowPulse);
+
+            for(int i = 0; i < 30; i++)
             {
-                Microseconds = _highPulse
-            };
-            
-            _lowTicker = new Ticker((SetLow))
-            {
-                Microseconds = _lowPulse
-            };
-            
-            _highTicker.Start();
+                SetHigh();
+                SetLow();
+            }
         }
 
         public void Stop()
         {
-            _highTicker.Stop();
-            
-            while(_highTicker.Ticking)
-                Thread.Sleep(0);
-            
-            _lowTicker.Stop();
-            
-            while(_lowTicker.Ticking)
-                Thread.Sleep(0);
-            
             _gpioController.Write(_pin, PinValue.Low);
         }
 
-        private void SetHigh(object sender, ProgressChangedEventArgs e)
+        private void SetHigh()
         {
             _gpioController.Write(_pin, PinValue.High);
+            _highTicker.Wait();
             
-            _highTicker.Stop();
-            
-            while(_highTicker.Ticking)
-                Thread.Sleep(0);
-            
-            _lowTicker.Start();
         }
 
-        private void SetLow(object sender, ProgressChangedEventArgs e)
+        private void SetLow()
         {
             _gpioController.Write(_pin, PinValue.Low);
-            _lowTicker.Stop();
-            
-            while(_lowTicker.Ticking)
-                Thread.Sleep(0);
-            
-            _highTicker.Start();
+            _lowTicker.Wait();
         }
     }
 }

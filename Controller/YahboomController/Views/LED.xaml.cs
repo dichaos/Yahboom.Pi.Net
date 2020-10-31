@@ -1,4 +1,5 @@
 using System;
+using ABI.Windows.Media.Protection.PlayReady;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -33,10 +34,21 @@ namespace YahboomController.Views
             _GreenTextBlock = this.FindControl<TextBlock>("GreenText");
 
             _ColorTextBlock = this.FindControl<TextBlock>("ColorText");
+
+            _RedSlider.PointerCaptureLost += (sender, args) =>
+            {
+                ChangeRed();
+            };
             
-            _RedSlider.WhenValueChanged(x => x.Value).Subscribe(ChangeRed);
-            _GreenSlider.WhenValueChanged(x => x.Value).Subscribe(ChangeGreen);
-            _BlueSlider.WhenValueChanged(x => x.Value).Subscribe(ChangeBlue);
+            _GreenSlider.PointerCaptureLost += (sender, args) =>
+            {
+                ChangeGreen();
+            };
+
+            _BlueSlider.PointerCaptureLost += (sender, args) =>
+            {
+                ChangeBlue();
+            };
         }
 
         private void InitializeComponent()
@@ -44,23 +56,23 @@ namespace YahboomController.Views
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void ChangeRed(double value)
+        private void ChangeRed()
         {
-            _RedTextBlock.Background = new SolidColorBrush(new Color(255, (byte) value, 0, 0));
+            _RedTextBlock.Background = new SolidColorBrush(new Color(255, (byte) _RedSlider.Value, 0, 0));
             _ColorTextBlock.Background = new SolidColorBrush(new Color(255, (byte)_RedSlider.Value, (byte)_GreenSlider.Value, (byte)_BlueSlider.Value));
             ((LEDViewModel) this.DataContext)?.Client.SetLED((int) _RedSlider.Value, (int) _GreenSlider.Value, (int) _BlueSlider.Value);
         }
         
-        private void ChangeGreen(double value)
+        private void ChangeGreen()
         {
-            _GreenTextBlock.Background = new SolidColorBrush(new Color(255, 0, (byte) value, 0));
+            _GreenTextBlock.Background = new SolidColorBrush(new Color(255, 0, (byte)_GreenSlider.Value, 0));
             _ColorTextBlock.Background = new SolidColorBrush(new Color(255, (byte)_RedSlider.Value, (byte)_GreenSlider.Value, (byte)_BlueSlider.Value));
             ((LEDViewModel) this.DataContext)?.Client.SetLED((int) _RedSlider.Value, (int) _GreenSlider.Value, (int) _BlueSlider.Value);
         }
 
-        private void ChangeBlue(double value)
+        private void ChangeBlue()
         {
-            _BlueTextBlock.Background =new SolidColorBrush(new Color(255,0, 0, (byte)value));
+            _BlueTextBlock.Background =new SolidColorBrush(new Color(255,0, 0, (byte)_BlueSlider.Value));
             _ColorTextBlock.Background = new SolidColorBrush(new Color(255, (byte)_RedSlider.Value, (byte)_GreenSlider.Value, (byte)_BlueSlider.Value));
             ((LEDViewModel) this.DataContext)?.Client.SetLED((int) _RedSlider.Value, (int) _GreenSlider.Value, (int) _BlueSlider.Value);
         }

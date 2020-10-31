@@ -28,15 +28,12 @@ namespace Robot.Devices
         {
             var dutyCycle = RadianceToDytyCycle(degree);
             _pwm.SetDutyCycle(dutyCycle);
-            
-            Task.Delay(1000).Wait();
             _pwm.Stop();
             _angle = degree;
         }
 
         private long RadianceToDytyCycle(int angle)
         {
-            
             return (( (MaxPulseWidth-MinPulseWidth) * angle) / 360) + MinPulseWidth;
         }
 

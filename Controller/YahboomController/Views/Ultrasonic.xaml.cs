@@ -15,7 +15,11 @@ namespace YahboomController.Views
         {
             InitializeComponent();
             _slider = this.FindControl<Slider>("UltrasonicSlider");
-            _slider.WhenValueChanged(x => x.Value).Subscribe(RightLeft);
+            
+            _slider.PointerCaptureLost += (sender, args) =>
+            {
+                RightLeft();
+            };
         }
         
         private void InitializeComponent()
@@ -23,9 +27,9 @@ namespace YahboomController.Views
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void RightLeft(double value)
+        private void RightLeft()
         {
-            ((UltrasonicViewModel) this.DataContext)?.Client.SetUltrasonic((int)value);
+            ((UltrasonicViewModel) this.DataContext)?.Client.SetUltrasonic((int)_slider.Value);
         }
     }
 }

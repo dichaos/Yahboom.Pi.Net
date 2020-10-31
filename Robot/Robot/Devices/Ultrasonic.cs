@@ -2,6 +2,7 @@
 using System.Device.Gpio;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Iot.Device.Hcsr04;
 using Robot.Configs;
 
 namespace Robot.Devices
@@ -16,45 +17,33 @@ namespace Robot.Devices
 
     public class Ultrasonic : IUltrasonic
     {
-        private readonly GpioController _gpioController;
+        private readonly Hcsr04 _sensor;
         private readonly Servo _servo;
         private readonly UltrasonicSettings _settings;
 
         public Ultrasonic(UltrasonicSettings ultraSettings, GpioController gpioGpioController)
         {
+            
             _settings = ultraSettings;
             
-            _gpioController = gpioGpioController;
-            _gpioController.OpenPin(_settings.EchoPin, PinMode.Input);
-            _gpioController.OpenPin(_settings.TrigPin, PinMode.Output);
-
+            _sensor = new Hcsr04(gpioGpioController, _settings.TrigPin, _settings.EchoPin);
             _servo = new Servo(ultraSettings.Servo, gpioGpioController);
         }
 
+        private double _lastValue;
+
         public double ReadValue()
         {
-            _gpioController.Write(_settings.TrigPin, PinValue.High);
-            Task.Delay(TimeSpan.FromMilliseconds(1)).Wait();
-            _gpioController.Write(_settings.TrigPin, PinValue.Low);
-
-            var delay = new Stopwatch();
-            delay.Start();
-            
-            while (_gpioController.Read(_settings.EchoPin) == PinValue.Low)
+            try
             {
-                delay = new Stopwatch();
-                delay.Start();
+                _lastValue =  _sensor.Distance;
+            }
+            catch (InvalidOperationException)
+            {
+                
             }
 
-            while(_gpioController.Read(_settings.EchoPin) == PinValue.High)
-                delay.Stop();
-            
-            //multiply with the sonic speed (34300 cm/s)
-            //and divide by 2, because there and back
-
-            var distance = (delay.Elapsed.TotalSeconds * 34300) / 2;
-
-            return distance;
+            return _lastValue;
         }
 
         public void SetRadiance(int degree)

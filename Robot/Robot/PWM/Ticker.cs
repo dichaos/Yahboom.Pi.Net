@@ -1,78 +1,41 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 
 namespace Robot.PWM
 {
     //From https://github.com/GR8DAN/C-Sharp-Microtimer/blob/master/Ticker/Tick.cs
-    public class Ticker : BackgroundWorker
+    public class Ticker
     {
-        Stopwatch sw = new Stopwatch();
-        public bool Ticking { get; private set; }
-        public readonly long TicksPerMicrosecond = Stopwatch.Frequency / 1000000L;
-        long ticksToCount = 100L * Stopwatch.Frequency / 1000000L;
-        
-        public long TicksToCount
-        {
-            get { return ticksToCount; }
-        }
-        
-        long microseconds = 100L;
-        
-        public long Microseconds
-        {
-            get { return Microseconds; }
-            set
-            {
-                microseconds = value;
-                ticksToCount = value * TicksPerMicrosecond;
-            }
-        }
+        readonly Stopwatch watch = new Stopwatch();
+        private readonly long TicksPerMicrosecond = Stopwatch.Frequency / 1000000L;
+        readonly long ticksToCount = 100L * Stopwatch.Frequency / 1000000L;
 
-        private void RunStopwatch(object sender, DoWorkEventArgs e)
+        private readonly long _pulse;
+        private readonly Action _process;
+        
+        public Ticker(long pulse)
         {
-            long nextTrigger;
+            _pulse = pulse;
+            ticksToCount = pulse * TicksPerMicrosecond;
+        }
+        
+        public void Wait()
+        {
+            watch.Start();
+            
+            var nextTrigger = watch.ElapsedTicks + ticksToCount;
             long diff;
-            int tick=1;   
             
-            sw.Start();
-            Ticking = sw.IsRunning;
-            
-            while(Ticking)
+            do
             {
-                nextTrigger = sw.ElapsedTicks + ticksToCount;
-                do
-                {
-                    Thread.Sleep(0);
-                    diff = nextTrigger - sw.ElapsedTicks;
-                } while (diff > 0);
-                
-                ((BackgroundWorker)sender).ReportProgress(tick);
-                tick = (tick==0) ? 1 : 0;
-            }
-            
-            sw.Stop();
-            sw.Reset();
-        }
+                Thread.Sleep(0);
+                diff = nextTrigger - watch.ElapsedTicks;
+            } while (diff > 0);
 
-        public Ticker(ProgressChangedEventHandler CallOnTick)
-        {
-            WorkerReportsProgress = true;
-            ProgressChanged += CallOnTick;
-            DoWork += RunStopwatch;
-        }
-        
-        public void Start()
-        {
-            if (IsBusy != true)
-            {
-                RunWorkerAsync();
-            }
-        }
-        
-        public void Stop()
-        {
-            Ticking = false;
+            watch.Stop();
+            watch.Reset();
         }
     }
 }
