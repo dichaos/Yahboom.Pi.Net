@@ -39,7 +39,7 @@ namespace Robot.PWM
             _highTicker = new Ticker(_highPulse);
             _lowTicker = new Ticker(_lowPulse);
 
-            for(int i = 0; i < 30; i++)
+            for(int i = 0; i < 300; i++)
             {
                 SetHigh();
                 SetLow();

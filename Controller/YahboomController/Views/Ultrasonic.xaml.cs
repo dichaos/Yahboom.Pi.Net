@@ -1,9 +1,5 @@
-using System;
-using Windows.Media.Devices;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using DynamicData.Binding;
 using YahboomController.ViewModels;
 
 namespace YahboomController.Views
