@@ -19,6 +19,11 @@ namespace YahboomController.ViewModels
             task.Start();
         }
 
+        public Client Client
+        {
+            get { return _client; }
+        }
+
         private void Process(byte[] image)
         {
             using (var ms = new MemoryStream(image))
