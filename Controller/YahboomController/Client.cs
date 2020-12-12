@@ -17,6 +17,7 @@ namespace YahboomController
         public Client(string url)
         {
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            
             _channel = GrpcChannel.ForAddress(new Uri(url));  
             _client = new RobotControllerContract.Robot.RobotClient(_channel);
         }
@@ -29,11 +30,11 @@ namespace YahboomController
             });
         }
 
-        public async Task SetUltrasonic(int degree)
+        public async Task SetUltrasonic(double value)
         {
             await _client.UltrasonicLeftRightAsync(new ServoRequest()
             {
-                Degree = degree
+                Degree = (int)value
             });
         }
 
@@ -79,6 +80,7 @@ namespace YahboomController
                 Blue = Blue
             });
         }
+        
         public Task GetVideo(CancellationToken token, Action<byte[]> processor)
         {
             return new Task(async () =>

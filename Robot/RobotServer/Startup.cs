@@ -107,16 +107,16 @@ namespace RobotServer
                 .As<ICamera>()
                 .SingleInstance();
 
-            builder.RegisterType<Movement>()
-                .As<IMovement>()
-                .SingleInstance();
-
             builder.RegisterType<Tracker>()
                 .As<ITracker>()
                 .SingleInstance();
 
             builder.RegisterType<Ultrasonic>()
                 .As<IUltrasonic>()
+                .SingleInstance();
+            
+            builder.RegisterType<Movement>()
+                .As<IMovement>()
                 .SingleInstance();
         }
     }

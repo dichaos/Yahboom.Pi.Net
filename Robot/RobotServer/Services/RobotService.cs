@@ -36,7 +36,7 @@ namespace RobotServer.Services
             _ultrasonic = ultrasonic;
             _buzzer = buzzer;
         }
-        
+#pragma warning disable 1998
         public override async Task<Reply> Movement(MovementRequest request, ServerCallContext context)
         {
             return _movement.Movement(request);
@@ -86,5 +86,6 @@ namespace RobotServer.Services
         {
             await _tracker.TrackerStream(responseStream, context.CancellationToken);
         }
+#pragma warning restore 1998
     }
 }

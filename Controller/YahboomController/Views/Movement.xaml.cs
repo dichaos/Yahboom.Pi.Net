@@ -17,16 +17,15 @@ namespace YahboomController.Views
             InitializeComponent();
             _speedSlider = this.FindControl<Slider>("SpeedSlider");
             
-            _speedSlider.PointerCaptureLost += (sender, args) => ChangeSpeed();
+            _speedSlider.PointerCaptureLost += async (sender, args) => await ChangeSpeed();
         }
 
         public async void PointerDownEvent(object sender, Avalonia.Input.PointerPressedEventArgs args)
         {
             MovementRequest.Types.Direction direction = MovementRequest.Types.Direction.Stop;
-
-            
             var button = (Button) ((Image)sender).Parent;
 
+            // ReSharper disable once PossibleNullReferenceException
             if (button.Name.Equals("UpButton"))
             {
                 direction = MovementRequest.Types.Direction.Forwards;

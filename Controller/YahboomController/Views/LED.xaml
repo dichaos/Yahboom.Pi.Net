@@ -28,10 +28,10 @@
             <Border Grid.Column="2" Grid.Row="2" Classes="Card" />
             
             <TextBlock Grid.Column="0" Grid.Row="0" Text="LED Light Color"  Classes="Heading"/>
-            <TextBlock Name="ColorText" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Background="White" Margin="1,1,1,1"/>
-            <TextBlock Name="RedText" Grid.Column="0" Grid.Row="2" Background="White" Margin="1,1,1,1"/>
-            <TextBlock Name="GreenText" Grid.Column="1" Grid.Row="2" Background="White" Margin="1,1,1,1"/>
-            <TextBlock Name="BlueText" Grid.Column="2" Grid.Row="2" Background="White" Margin="1,1,1,1"/>
+            <TextBlock Name="ColorText" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Background="Black" Margin="1,1,1,1"/>
+            <TextBlock Name="RedText" Grid.Column="0" Grid.Row="2" Background="Black" Margin="1,1,1,1"/>
+            <TextBlock Name="GreenText" Grid.Column="1" Grid.Row="2" Background="Black" Margin="1,1,1,1"/>
+            <TextBlock Name="BlueText" Grid.Column="2" Grid.Row="2" Background="Black" Margin="1,1,1,1"/>
             
             <Slider Name="RedSlider"
                     Grid.Row="3" 

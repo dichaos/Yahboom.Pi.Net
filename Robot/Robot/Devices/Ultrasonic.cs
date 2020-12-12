@@ -11,8 +11,6 @@ namespace Robot.Devices
     {
         double ReadValue();
         void SetRadiance(int degree);
-        void Forward();
-        int GetRadiance();
     }
 
     public class Ultrasonic : IUltrasonic
@@ -36,7 +34,7 @@ namespace Robot.Devices
         {
             try
             {
-                _lastValue =  _sensor.Distance;
+                _lastValue =  _sensor.Distance.Centimeters;
             }
             catch (InvalidOperationException)
             {
@@ -48,18 +46,9 @@ namespace Robot.Devices
 
         public void SetRadiance(int degree)
         {
-            _servo.SetRadiance(degree);
+            _servo.SetDutyCycle(degree);
         }
 
-        public void Forward()
-        {
-            _servo.SetRadiance(180);
-        }
-
-        public int GetRadiance()
-        {
-            return _servo.GetAngle();
-        }
 
         public void Dispose()
         {

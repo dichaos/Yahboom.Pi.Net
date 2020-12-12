@@ -12,8 +12,6 @@ namespace Robot.Devices
         byte[] ReadImage();
         void SetHorizontalRadiance(int degree);
         void SetVerticalRadiance(int degree);
-        int GetHorizontal();
-        int GetVertical();
     }
 
     public class Camera : IDisposable, ICamera
@@ -38,23 +36,14 @@ namespace Robot.Devices
 
         public void SetHorizontalRadiance(int degree)
         {
-            _horizontal.SetRadiance(degree);
+            _horizontal.SetDutyCycle(degree);
         }
 
         public void SetVerticalRadiance(int degree)
         {
-            _vertical.SetRadiance(degree);
+            _vertical.SetDutyCycle(degree);
         }
 
-        public int GetHorizontal()
-        {
-            return _horizontal.GetAngle();
-        }
-
-        public int GetVertical()
-        {
-            return _vertical.GetAngle();
-        }
 
         public void Dispose()
         {

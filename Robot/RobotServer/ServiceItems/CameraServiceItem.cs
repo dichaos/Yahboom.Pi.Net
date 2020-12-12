@@ -60,9 +60,14 @@ namespace RobotServer.ServiceItems
             {
                 try
                 {
+                    var image = _camera.ReadImage();
+
+                    if (image == null)
+                        continue;
+                    
                     await responseStream.WriteAsync(new VideoData()
                     {
-                        Image = ByteString.CopyFrom(_camera.ReadImage())
+                        Image = ByteString.CopyFrom(image)
                     });
                 }
                 catch (Exception ex)

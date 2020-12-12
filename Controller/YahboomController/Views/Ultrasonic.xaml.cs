@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using YahboomController.ViewModels;
@@ -12,9 +13,9 @@ namespace YahboomController.Views
             InitializeComponent();
             _slider = this.FindControl<Slider>("UltrasonicSlider");
             
-            _slider.PointerCaptureLost += (sender, args) =>
+            _slider.PointerCaptureLost += async (sender, args) =>
             {
-                RightLeft();
+                await RightLeft();
             };
         }
         
@@ -23,9 +24,9 @@ namespace YahboomController.Views
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void RightLeft()
+        private async Task RightLeft()
         {
-            ((UltrasonicViewModel) this.DataContext)?.Client.SetUltrasonic((int)_slider.Value);
+            await (DataContext as UltrasonicViewModel)?.Client?.SetUltrasonic(_slider.Value);
         }
     }
 }

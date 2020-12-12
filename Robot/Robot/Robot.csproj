@@ -7,12 +7,12 @@
     <ItemGroup>
       <PackageReference Include="Emgu.CV" Version="4.4.0.4099" />
       <PackageReference Include="Emgu.CV.runtime.raspbian" Version="4.4.0.4099" />
-      <PackageReference Include="Iot.Device.Bindings" Version="1.1.0-prerelease.20276.1" />
+      <PackageReference Include="Iot.Device.Bindings" Version="1.2.0" />
       <PackageReference Include="OpenAL.NETCore" Version="1.0.3" />
-      <PackageReference Include="OpenTK" Version="4.0.6" />
-      <PackageReference Include="OpenTK.Core" Version="4.0.6" />
-      <PackageReference Include="OpenTK.OpenAL" Version="4.0.6" />
-      <PackageReference Include="System.Device.Gpio" Version="1.1.0-prerelease.20276.1" />
+      <PackageReference Include="OpenTK" Version="4.3.0" />
+      <PackageReference Include="OpenTK.Core" Version="4.3.0" />
+      <PackageReference Include="OpenTK.OpenAL" Version="4.3.0" />
+      <PackageReference Include="System.Device.Gpio" Version="1.2.0" />
     </ItemGroup>
 
     <ItemGroup>

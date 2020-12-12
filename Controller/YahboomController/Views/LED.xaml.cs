@@ -1,5 +1,5 @@
 using System;
-using ABI.Windows.Media.Protection.PlayReady;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -35,19 +35,19 @@ namespace YahboomController.Views
 
             _ColorTextBlock = this.FindControl<TextBlock>("ColorText");
 
-            _RedSlider.PointerCaptureLost += (sender, args) =>
+            _RedSlider.PointerCaptureLost += async (sender, args) =>
             {
-                ChangeRed();
+                await ChangeRed();
             };
             
-            _GreenSlider.PointerCaptureLost += (sender, args) =>
+            _GreenSlider.PointerCaptureLost += async (sender, args) =>
             {
-                ChangeGreen();
+                await ChangeGreen();
             };
 
-            _BlueSlider.PointerCaptureLost += (sender, args) =>
+            _BlueSlider.PointerCaptureLost += async (sender, args) =>
             {
-                ChangeBlue();
+                await ChangeBlue();
             };
         }
 
@@ -56,25 +56,34 @@ namespace YahboomController.Views
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void ChangeRed()
+        private async Task ChangeRed()
         {
             _RedTextBlock.Background = new SolidColorBrush(new Color(255, (byte) _RedSlider.Value, 0, 0));
             _ColorTextBlock.Background = new SolidColorBrush(new Color(255, (byte)_RedSlider.Value, (byte)_GreenSlider.Value, (byte)_BlueSlider.Value));
-            ((ClientViewModel) this.DataContext)?.Client.SetLED((int) _RedSlider.Value, (int) _GreenSlider.Value, (int) _BlueSlider.Value);
+
+            await ChangeLED();
         }
         
-        private void ChangeGreen()
+        private async Task ChangeGreen()
         {
             _GreenTextBlock.Background = new SolidColorBrush(new Color(255, 0, (byte)_GreenSlider.Value, 0));
             _ColorTextBlock.Background = new SolidColorBrush(new Color(255, (byte)_RedSlider.Value, (byte)_GreenSlider.Value, (byte)_BlueSlider.Value));
-            ((ClientViewModel) this.DataContext)?.Client.SetLED((int) _RedSlider.Value, (int) _GreenSlider.Value, (int) _BlueSlider.Value);
+            
+            await ChangeLED();
         }
 
-        private void ChangeBlue()
+        private async Task ChangeBlue()
         {
             _BlueTextBlock.Background =new SolidColorBrush(new Color(255,0, 0, (byte)_BlueSlider.Value));
             _ColorTextBlock.Background = new SolidColorBrush(new Color(255, (byte)_RedSlider.Value, (byte)_GreenSlider.Value, (byte)_BlueSlider.Value));
-            ((ClientViewModel) this.DataContext)?.Client.SetLED((int) _RedSlider.Value, (int) _GreenSlider.Value, (int) _BlueSlider.Value);
+            
+            await ChangeLED();
+        }
+
+        private async Task ChangeLED()
+        {
+            var client = ((ClientViewModel) this.DataContext)?.Client;
+            if (client != null) await client.SetLED((int) _RedSlider.Value, (int) _GreenSlider.Value, (int) _BlueSlider.Value);
         }
     }
 }

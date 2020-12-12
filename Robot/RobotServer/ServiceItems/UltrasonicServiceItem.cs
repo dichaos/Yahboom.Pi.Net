@@ -44,10 +44,24 @@ namespace RobotServer.ServiceItems
             {
                 try
                 {
-                    await responseStream.WriteAsync(new UltrasonicData()
+                    var data = new UltrasonicData()
                     {
                         Value = _ultrasonic.ReadValue()
-                    });
+                    };
+
+                    try
+                    {
+                        await responseStream.WriteAsync(data);
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        if (!ex.Message.Contains("Cannot write message after request is complete"))
+                            throw;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        
+                    }
                 }
                 catch (Exception ex)
                 {

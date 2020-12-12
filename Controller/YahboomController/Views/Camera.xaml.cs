@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using YahboomController.ViewModels;
@@ -18,38 +19,41 @@ namespace YahboomController.Views
             _verticalSlider = this.FindControl<Slider>("VerticalSlider");
             _button = this.FindControl<Button>("CenterButton");
             
-            _horizontalSlider.PointerCaptureLost += (sender, args) =>
+            _horizontalSlider.PointerCaptureLost += async (sender, args) =>
             {
-                ChangeHorizontal();
+                await ChangeHorizontal();
             };
             
-            _verticalSlider.PointerCaptureLost += (sender, args) =>
+            _verticalSlider.PointerCaptureLost += async (sender, args) =>
             {
-                ChangeVertical();
+                await ChangeVertical();
             };
 
-            _button.Click += (sender, args) =>
+            _button.Click += async (sender, args) =>
             {
-                Center();
+                await Center();
             };
         }
 
-        private void Center()
+        private async Task Center()
         {
             _horizontalSlider.Value = 90;
             _verticalSlider.Value = 90;
-            ChangeHorizontal();
-            ChangeVertical();
+            
+            await ChangeHorizontal();
+            await ChangeVertical();
         }
 
-        private void ChangeHorizontal()
+        private async Task ChangeHorizontal()
         {
-            ((CameraViewModel) this.DataContext)?.Client.SetCameraHorizontal((int)_horizontalSlider.Value);
+            var client = ((CameraViewModel) this.DataContext)?.Client;
+            if (client != null) await client.SetCameraHorizontal((int)_horizontalSlider.Value);
         }
 
-        private void ChangeVertical()
+        private async Task ChangeVertical()
         {
-            ((CameraViewModel) this.DataContext)?.Client.SetCameraVertical((int)_verticalSlider.Value);
+            var client = ((CameraViewModel) this.DataContext)?.Client;
+            if (client != null) await client.SetCameraVertical((int) _verticalSlider.Value);
         }
         
         private void InitializeComponent()

@@ -22,7 +22,7 @@ namespace RobotServer.ServiceItems
         
         public Reply Movement(MovementRequest request)
         {
-            
+            Console.WriteLine(request.MovementDirection+ " "+request.Speed);
             try
             {
                 switch (request.MovementDirection)
