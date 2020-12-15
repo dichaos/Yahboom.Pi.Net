@@ -6,9 +6,10 @@
              x:Class="YahboomController.Views.ConnectionSettingsView">
     <Border Classes="Card">
         <DockPanel>
-            <TextBlock DockPanel.Dock="Top" Classes="Heading" Text="Connection Settings"/>
-            <TextBlock DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Text = "URL:" Classes="Heading"></TextBlock>    
-            <TextBox DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300"> </TextBox>
+            <TextBlock DockPanel.Dock="Top" Classes="Heading" Text="Connection Settings" />
+            <TextBlock DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Text="URL:"
+                       Classes="Heading" />
+            <TextBox DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="300" />
         </DockPanel>
     </Border>
 </UserControl>

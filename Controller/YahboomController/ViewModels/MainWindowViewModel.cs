@@ -5,11 +5,7 @@ namespace YahboomController.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         public readonly CancellationTokenSource source;
-        public UltrasonicViewModel Ultrasonic { get; private set; }
-        public TrackerViewModel Tracker { get; private set; }
-        public CameraViewModel Camera { get; private set; }
-        public ClientViewModel Client { get; private set; }
-        
+
         public MainWindowViewModel(Client c)
         {
             source = new CancellationTokenSource();
@@ -19,10 +15,15 @@ namespace YahboomController.ViewModels
             Client = new ClientViewModel(c);
         }
 
+        public UltrasonicViewModel Ultrasonic { get; }
+        public TrackerViewModel Tracker { get; }
+        public CameraViewModel Camera { get; }
+        public ClientViewModel Client { get; }
+
         public void Stop()
         {
             source.Cancel();
-            WaitHandle.WaitAny(new[] { source.Token.WaitHandle });
+            WaitHandle.WaitAny(new[] {source.Token.WaitHandle});
         }
     }
 }

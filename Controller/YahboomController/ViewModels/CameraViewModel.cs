@@ -9,11 +9,17 @@ namespace YahboomController.ViewModels
     public class CameraViewModel : ClientViewModel
     {
         private IBitmap _latBitmap;
-        
-        public CameraViewModel(CancellationToken token,  Client c):base(c)
+
+        public CameraViewModel(CancellationToken token, Client c) : base(c)
         {
             var task = c.GetVideo(token, Process);
             task.Start();
+        }
+
+        public IBitmap Image
+        {
+            get => _latBitmap;
+            set => this.RaiseAndSetIfChanged(ref _latBitmap, value);
         }
 
         private void Process(byte[] image)
@@ -23,18 +29,12 @@ namespace YahboomController.ViewModels
                 Image = new Bitmap(ms);
             }
         }
-        
-        public IBitmap Image
-        {
-            get => _latBitmap;
-            set => this.RaiseAndSetIfChanged(ref _latBitmap, value);
-        }
 
         public async Task SetHorizontal(int angle)
         {
             await Client.SetCameraHorizontal(angle);
         }
-        
+
         public async Task SetVertical(int angle)
         {
             await Client.SetCameraVertical(angle);

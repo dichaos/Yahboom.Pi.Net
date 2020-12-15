@@ -1,5 +1,4 @@
-﻿using System;
-using System.Device.Gpio;
+﻿using System.Device.Gpio;
 
 namespace Robot.Devices
 {
@@ -12,17 +11,16 @@ namespace Robot.Devices
 
     public class Buzzer : IBuzzer
     {
-        private GpioController _controller;
-        private int  _buzzerPin;
+        private readonly int _buzzerPin;
+        private readonly GpioController _controller;
         private bool _onOff;
-        
+
         public Buzzer(int buzzer, GpioController controller)
         {
             _buzzerPin = buzzer;
             _controller = controller;
             _controller.OpenPin(_buzzerPin, PinMode.Output);
             _controller.Write(_buzzerPin, PinValue.High);
-            
         }
 
         public void Start()

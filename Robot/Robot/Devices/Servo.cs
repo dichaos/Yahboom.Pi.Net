@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Robot.Devices
 {
-    public interface IServo : IDisposable
+    public interface IServo
     {
         void SetDutyCycle(int degree);
     }
@@ -16,18 +16,14 @@ namespace Robot.Devices
 
         public Servo(int pin, GpioController gpioController)
         {
-            _pwm = new PWM.PWM(pin, 100);
+            _pwm = new PWM.PWM(gpioController, pin, 500, 2500);
         }
 
-        public void SetDutyCycle(int degree)
+        public void SetDutyCycle(int value)
         {
-            Console.WriteLine("Setting servo to " + degree);
-            _pwm.SetDutyCycle(degree);
-        }
-
-        public void Dispose()
-        {
-            _pwm.Dispose();
+            var c = new CancellationTokenSource();
+            Task.Factory.StartNew(() => _pwm.SetDutyCycle(value, c.Token));
+            c.CancelAfter(TimeSpan.FromMilliseconds(300));
         }
     }
 }

@@ -1,30 +1,35 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using RobotControllerContract;
-using System.Linq;
 
 namespace YahboomController
 {
     public class Client : IDisposable
     {
         private readonly GrpcChannel _channel;
-        private readonly RobotControllerContract.Robot.RobotClient _client;
-        
+        private readonly Robot.RobotClient _client;
+
         public Client(string url)
         {
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-            
-            _channel = GrpcChannel.ForAddress(new Uri(url));  
-            _client = new RobotControllerContract.Robot.RobotClient(_channel);
+
+            _channel = GrpcChannel.ForAddress(new Uri(url));
+            _client = new Robot.RobotClient(_channel);
         }
-        
+
+        public void Dispose()
+        {
+            _channel.Dispose();
+        }
+
         public async Task Buzz(bool onOff)
         {
-            await _client.BuzzAsync(new BuzzValue()
+            await _client.BuzzAsync(new BuzzValue
             {
                 OnOff = onOff
             });
@@ -32,15 +37,15 @@ namespace YahboomController
 
         public async Task SetUltrasonic(double value)
         {
-            await _client.UltrasonicLeftRightAsync(new ServoRequest()
+            await _client.UltrasonicLeftRightAsync(new ServoRequest
             {
-                Degree = (int)value
+                Degree = (int) value
             });
         }
 
         public async Task SetCameraHorizontal(int degree)
         {
-            await _client.CameraLeftRightAsync(new ServoRequest()
+            await _client.CameraLeftRightAsync(new ServoRequest
             {
                 Degree = degree
             });
@@ -48,7 +53,7 @@ namespace YahboomController
 
         public async Task SetCameraVertical(int degree)
         {
-            await _client.CameraUpDownAsync(new ServoRequest()
+            await _client.CameraUpDownAsync(new ServoRequest
             {
                 Degree = degree
             });
@@ -56,7 +61,7 @@ namespace YahboomController
 
         public async Task SetMovement(MovementRequest.Types.Direction d)
         {
-            await _client.MovementAsync(new MovementRequest()
+            await _client.MovementAsync(new MovementRequest
             {
                 MovementDirection = d
             });
@@ -64,7 +69,7 @@ namespace YahboomController
 
         public async Task SetMovementSpeed(int speed)
         {
-            await _client.MovementAsync(new MovementRequest()
+            await _client.MovementAsync(new MovementRequest
             {
                 MovementDirection = MovementRequest.Types.Direction.Speed,
                 Speed = speed
@@ -73,14 +78,14 @@ namespace YahboomController
 
         public async Task SetLED(int Red, int Green, int Blue)
         {
-            var response = await _client.LEDAsync(new LEDValue()
+            var response = await _client.LEDAsync(new LEDValue
             {
                 Red = Red,
                 Green = Green,
                 Blue = Blue
             });
         }
-        
+
         public Task GetVideo(CancellationToken token, Action<byte[]> processor)
         {
             return new Task(async () =>
@@ -88,7 +93,6 @@ namespace YahboomController
                 using var videoStream = _client.VideoStream(new Empty(), null, null, token);
 
                 while (!token.IsCancellationRequested)
-                {
                     try
                     {
                         await foreach (var item in videoStream.ResponseStream.ReadAllAsync(token))
@@ -102,7 +106,6 @@ namespace YahboomController
                     {
                         Console.WriteLine(exc);
                     }
-                }
             });
         }
 
@@ -111,15 +114,13 @@ namespace YahboomController
             return new Task(async () =>
             {
                 using var audioStream = _client.AudioStream(new Empty(), null, null, token);
-                
+
                 try
                 {
-                    await foreach (var item in  audioStream.ResponseStream.ReadAllAsync(token))
-                    {
-                        processor(item.Data.ToArray().Select(x => (short)x).ToArray());
-                    }
+                    await foreach (var item in audioStream.ResponseStream.ReadAllAsync(token))
+                        processor(item.Data.ToArray().Select(x => (short) x).ToArray());
                 }
-                catch(RpcException exc)
+                catch (RpcException exc)
                 {
                     Console.WriteLine(exc.Message);
                 }
@@ -133,19 +134,15 @@ namespace YahboomController
                 using var ultrasonicStream = _client.UltrasonicStream(new Empty(), null, null, token);
 
                 while (!token.IsCancellationRequested)
-                {
                     try
                     {
                         await foreach (var item in ultrasonicStream.ResponseStream.ReadAllAsync(token))
-                        {
                             processor(item.Value);
-                        }
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                     }
-                }
             });
         }
 
@@ -156,25 +153,15 @@ namespace YahboomController
                 using var trackerStream = _client.TrackerStream(new Empty(), null, null, token);
 
                 while (!token.IsCancellationRequested)
-                {
                     try
                     {
-                        await foreach (var item in trackerStream.ResponseStream.ReadAllAsync(token))
-                        {
-                            processor(item);
-                        }
+                        await foreach (var item in trackerStream.ResponseStream.ReadAllAsync(token)) processor(item);
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                     }
-                }
             });
-        }
-        
-        public void Dispose()
-        {
-            _channel.Dispose();
         }
     }
 }

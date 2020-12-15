@@ -1,9 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using OpenAL;
-using Robot.Configs;
 using OpenTK.Audio.OpenAL;
+using Robot.Configs;
 
 namespace Robot.Devices
 {
@@ -16,35 +15,25 @@ namespace Robot.Devices
     {
         private readonly ALCaptureDevice _captureDevice;
         private readonly AudioSettings _settings;
+
         public Microphone(AudioSettings settings)
         {
             _settings = settings;
-            Console.WriteLine("Currently using device " + _settings.DeviceIndex+" if you want to use a different device please edit config file");
-            
+            Console.WriteLine("Currently using device " + _settings.DeviceIndex + " if you want to use a different device please edit config file");
+            PrintRecorders();
+
             var devices = ALC.GetStringList(GetEnumerationStringList.CaptureDeviceSpecifier);
-            
-            var d = Alc.CaptureOpenDevice(devices.ToList()[settings.DeviceIndex], settings.SampleRate, (int)ALFormat.Stereo16, settings.Chunk);
+
+            var d = Alc.CaptureOpenDevice(devices.ToList()[settings.DeviceIndex], settings.SampleRate, (int) ALFormat.Stereo16, settings.Chunk);
             _captureDevice = new ALCaptureDevice(d);
             ALC.CaptureStart(_captureDevice);
-        }
-
-        public static void PrintRecorders()
-        {
-            var devices = ALC.GetStringList(GetEnumerationStringList.CaptureDeviceSpecifier).ToList();
-            
-            Console.WriteLine("--- Available audio capture devices ---");
-            for (int i = 0; i < devices.Count(); i++)
-            {
-                Console.WriteLine(i+" - "+devices[i]);
-            }
-            Console.WriteLine("---------------------------------------");
         }
 
         public short[] Read()
         {
             var current = 0;
             var recording = new short[_settings.SampleRate * 4];
-            
+
             while (current < recording.Length)
             {
                 var samplesAvailable = ALC.GetAvailableSamples(_captureDevice);
@@ -55,12 +44,29 @@ namespace Robot.Devices
                     current += samplesToRead;
                 }
             }
+
             return recording;
         }
 
         public void Dispose()
         {
-            try { ALC.CaptureStop(_captureDevice); }catch {}
+            try
+            {
+                ALC.CaptureStop(_captureDevice);
+            }
+            catch(Exception ex)
+            {
+                Console.Write("ERROR: Error disposing ALC "+ex);
+            }
+        }
+
+        public static void PrintRecorders()
+        {
+            var devices = ALC.GetStringList(GetEnumerationStringList.CaptureDeviceSpecifier).ToList();
+
+            Console.WriteLine("--- Available audio capture devices ---");
+            for (var i = 0; i < devices.Count(); i++) Console.WriteLine(i + " - " + devices[i]);
+            Console.WriteLine("---------------------------------------");
         }
     }
 }

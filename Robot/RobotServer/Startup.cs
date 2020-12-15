@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Robot.Configs;
 using Robot.Devices;
 using RobotServer.ServiceItems;
 using RobotServer.Services;
@@ -14,14 +15,14 @@ namespace RobotServer
 {
     public class Startup
     {
-        private readonly Robot.Configs.RobotSettings config;
-        
+        private readonly RobotSettings config;
+
         public Startup(IConfiguration configuration)
         {
             var conf = configuration.Get<RobotServerCofig>();
             config = conf.RobotSettings;
         }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
@@ -30,10 +31,7 @@ namespace RobotServer
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseRouting();
             app.UseEndpoints(endpoints =>
@@ -43,11 +41,12 @@ namespace RobotServer
                 endpoints.MapGet("/",
                     async context =>
                     {
-                        await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+                        await context.Response.WriteAsync(
+                            "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
                     });
             });
         }
-        
+
         public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.Register(p => config.Buzzer).SingleInstance();
@@ -61,36 +60,36 @@ namespace RobotServer
             builder.RegisterType<AudioServiceItem>()
                 .As<IAudioServiceItem>()
                 .SingleInstance();
-            
+
             builder.RegisterType<BuzzServiceItem>()
                 .As<IBuzzServiceItem>()
                 .SingleInstance();
-            
+
             builder.RegisterType<CameraServiceItem>()
                 .As<ICameraServiceItem>()
                 .SingleInstance();
-            
+
             builder.RegisterType<MovementServiceItem>()
                 .As<IMovementServiceItem>()
                 .SingleInstance();
-            
+
             builder.RegisterType<RGBServiceItem>()
                 .As<IRGBServiceItem>()
                 .SingleInstance();
-            
+
             builder.RegisterType<TrackerServiceItem>()
                 .As<ITrackerServiceItem>()
                 .SingleInstance();
-            
+
             builder.RegisterType<UltrasonicServiceItem>()
                 .As<IUltrasonicServiceItem>()
                 .SingleInstance();
 
             builder.RegisterType<GpioController>()
-                    .WithParameter(new TypedParameter(typeof(PinNumberingScheme), PinNumberingScheme.Logical))
-                    .SingleInstance();
+                .WithParameter(new TypedParameter(typeof(PinNumberingScheme), PinNumberingScheme.Logical))
+                .SingleInstance();
 
-            builder.RegisterType<Robot.Devices.Buzzer>()
+            builder.RegisterType<Buzzer>()
                 .As<IBuzzer>()
                 .WithParameter(new TypedParameter(typeof(int), config.Buzzer))
                 .SingleInstance();
@@ -114,11 +113,10 @@ namespace RobotServer
             builder.RegisterType<Ultrasonic>()
                 .As<IUltrasonic>()
                 .SingleInstance();
-            
+
             builder.RegisterType<Movement>()
                 .As<IMovement>()
                 .SingleInstance();
         }
     }
-
 }

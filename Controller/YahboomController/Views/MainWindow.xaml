@@ -1,6 +1,5 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:YahboomController.ViewModels;assembly=YahboomController"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:YahboomController.Views"
@@ -16,29 +15,33 @@
             <ColumnDefinition Width="950" />
             <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
-        
+
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
-            <views:ConnectionSettingsView Grid.Row="0" Width="400" Height="145" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            <views:Movement Grid.Row="1" Width="400" Height="410" VerticalAlignment="Top" HorizontalAlignment="Left" DataContext="{Binding Client}"/>
-            <views:LED Grid.Row="2" Width="400" Height="410"  VerticalAlignment="Top" HorizontalAlignment="Left" DataContext="{Binding Client}"/>
+
+            <views:ConnectionSettingsView Grid.Row="0" Width="400" Height="145" VerticalAlignment="Top"
+                                          HorizontalAlignment="Left" />
+            <views:Movement Grid.Row="1" Width="400" Height="410" VerticalAlignment="Top" HorizontalAlignment="Left"
+                            DataContext="{Binding Client}" />
+            <views:LED Grid.Row="2" Width="400" Height="410" VerticalAlignment="Top" HorizontalAlignment="Left"
+                       DataContext="{Binding Client}" />
         </Grid>
-        
-        <views:Camera Grid.Row="0" Grid.Column="1" Width="950" Height="740" VerticalAlignment="Top" HorizontalAlignment="Left" DataContext="{Binding Camera }"/>
-        
+
+        <views:Camera Grid.Row="0" Grid.Column="1" Width="950" Height="740" VerticalAlignment="Top"
+                      HorizontalAlignment="Left" DataContext="{Binding Camera }" />
+
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <views:Ultrasonic Grid.Row="0" Width="400" Height="200" DataContext="{Binding Ultrasonic}"/>
-            <views:Tracker Grid.Row="1" Width="400" Height="120" DataContext="{Binding Tracker}"/>
+            <views:Ultrasonic Grid.Row="0" Width="400" Height="200" DataContext="{Binding Ultrasonic}" />
+            <views:Tracker Grid.Row="1" Width="400" Height="120" DataContext="{Binding Tracker}" />
         </Grid>
-            
+
     </Grid>
 </Window>

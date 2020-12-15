@@ -7,33 +7,46 @@
     <Border Classes="Card">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width = "70"/>
+                <ColumnDefinition Width="70" />
                 <ColumnDefinition />
+                <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
+                <RowDefinition Height="55" />
             </Grid.RowDefinitions>
-    
-            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan = "2" Classes="Heading" Text="Ultrasonic Sensor" />
-            <TextBlock Grid.Row="1" Grid.Column="0" Classes="Caption" Text="Direction:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-    
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Classes="Heading" Text="Ultrasonic Sensor" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Classes="Caption" Text="Direction:" HorizontalAlignment="Left"
+                       VerticalAlignment="Center" />
+
             <Slider Name="UltrasonicSlider"
                     Grid.Row="1"
                     Grid.Column="1"
-                    Minimum="0"
-                    Maximum="100"
-                    Value="50"
+                    Minimum="500"
+                    Maximum="2500"
+                    Value="1500"
                     TickFrequency="1"
                     IsSnapToTickEnabled="False"
                     Orientation="Horizontal"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Width="290"/>
-    
-            <TextBlock Grid.Row="2" Grid.Column="0" Classes="Caption" Text="Distance:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <TextBlock Name="Distance" Grid.Row="2" Grid.Column="1" Classes="Caption" Text="{Binding UltrasonicValue}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    Width="290" />
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Classes="Caption" Text="Distance:" HorizontalAlignment="Right"
+                       VerticalAlignment="Center" />
+            <TextBlock Name="Distance" Grid.Row="2" Grid.Column="1" Classes="Caption" Text="{Binding UltrasonicValue}"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" />
+            
+            <Button Grid.Row="2"
+                    Grid.Column="2"
+                    Name="CenterButton"
+                    Classes="Primary"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                Center
+            </Button>
         </Grid>
     </Border>
 </UserControl>

@@ -15,22 +15,22 @@ namespace RobotServer.ServiceItems
     {
         private readonly ILED _led;
 
-        public RGBServiceItem(ILogger<RobotService> logger, ILED led):base(logger)
+        public RGBServiceItem(ILogger<RobotService> logger, ILED led) : base(logger)
         {
             _led = led;
         }
-        
+
         public Reply LED(LEDValue request)
         {
             try
             {
                 _led.SetRGB(request.Red, request.Blue, request.Green);
-                return new Reply() {Success = true};
+                return new Reply {Success = true};
             }
             catch (Exception ex)
             {
                 _logger.Log(LogLevel.Error, ex, "Error setting RGB");
-                return new Reply() {Success = false};
+                return new Reply {Success = false};
             }
         }
     }

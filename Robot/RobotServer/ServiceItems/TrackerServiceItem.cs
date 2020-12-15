@@ -11,26 +11,26 @@ namespace RobotServer.ServiceItems
 {
     public interface ITrackerServiceItem
     {
-        Task TrackerStream(IServerStreamWriter<RobotControllerContract.TrackerData> responseStream, CancellationToken token);
+        Task TrackerStream(IServerStreamWriter<TrackerData> responseStream, CancellationToken token);
     }
 
     public class TrackerServiceItem : ServiceItemBase, ITrackerServiceItem
     {
-        private readonly Robot.Devices.ITracker _tracker;
-        
-        public TrackerServiceItem(ILogger<RobotService> logger, Robot.Devices.ITracker tracker):base(logger)
+        private readonly ITracker _tracker;
+
+        public TrackerServiceItem(ILogger<RobotService> logger, ITracker tracker) : base(logger)
         {
             _tracker = tracker;
         }
-        
-        public async Task TrackerStream(IServerStreamWriter<RobotControllerContract.TrackerData> responseStream, CancellationToken token)
+
+        public async Task TrackerStream(IServerStreamWriter<TrackerData> responseStream, CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {
                 try
                 {
                     var data = _tracker.ReadValue();
-                    await responseStream.WriteAsync(new RobotControllerContract.TrackerData()
+                    await responseStream.WriteAsync(new TrackerData
                     {
                         LeftPin1 = data.LeftPin1,
                         LeftPin2 = data.LeftPin2,
@@ -43,7 +43,7 @@ namespace RobotServer.ServiceItems
                     _logger.Log(LogLevel.Error, ex, "Error reading tracker values");
                 }
 
-                Task.Delay(1000).Wait();
+                Task.Delay(TimeSpan.FromMilliseconds(1000), token).Wait(token);
             }
         }
     }

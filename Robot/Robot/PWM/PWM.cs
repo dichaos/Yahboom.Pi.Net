@@ -1,50 +1,65 @@
-﻿using System;
-using System.Runtime.InteropServices;
+using System.Device.Gpio;
+using System.Threading;
 
 namespace Robot.PWM
 {
-    public class PWM : IDisposable
+    public class PWM
     {
-        private const string WiringPiLibrary = "/usr/lib/libwiringPi.so.2.50";
-
-        [DllImport(WiringPiLibrary, EntryPoint = "wiringPiSetupGpio", SetLastError = true)]
-        private static extern int wiringPiSetupGpio();
-        
-        [DllImport(WiringPiLibrary, EntryPoint = "softPwmCreate", SetLastError = true)]
-        private static extern int SoftPwmCreate(int pin, int initialValue, int pwmRange);
-
-        [DllImport(WiringPiLibrary, EntryPoint = "softPwmWrite", SetLastError = true)]
-        private static extern void SoftPwmWrite(int pin, int value);
-
-        [DllImport(WiringPiLibrary, EntryPoint = "softPwmStop", SetLastError = true)]
-        private static extern void SoftPwmStop(int pin);
-
+        private readonly GpioController _gpioController;
+        private readonly long _maxPulseCycle;
+        private readonly long _minPulseCycle;
         private readonly int _pin;
 
-        static PWM()
+        private Ticker _highTicker;
+        private Ticker _lowTicker;
+
+        public PWM(GpioController gpioController, int pin, long minPulseCycle, long maxPulseCycle)
         {
-            wiringPiSetupGpio();
-        }
-        
-        public PWM(int pin, int range = 100)
-        {
+            _gpioController = gpioController;
             _pin = pin;
-            SoftPwmCreate(_pin, 0, range);
+            _minPulseCycle = minPulseCycle;
+            _maxPulseCycle = maxPulseCycle;
+
+            _gpioController.OpenPin(pin, PinMode.Output);
         }
 
-        public void Dispose()
+        public void SetDutyCycle(long pulse, CancellationToken token)
         {
-            SoftPwmStop(_pin);
+            
+            if (pulse < _minPulseCycle)
+                pulse = _minPulseCycle;
+
+            if (pulse > _maxPulseCycle)
+                pulse = _maxPulseCycle;
+
+            var _highPulse = pulse;
+            var _lowPulse = _maxPulseCycle - pulse;
+
+            _highTicker = new Ticker(_highPulse);
+            _lowTicker = new Ticker(_lowPulse);
+            
+            while (!token.IsCancellationRequested)
+            {
+                SetHigh();
+                SetLow();
+            }
         }
 
         public void Stop()
         {
-            SoftPwmStop(_pin);
+            _gpioController.Write(_pin, PinValue.Low);
         }
 
-        public void SetDutyCycle(int pulse)
+        private void SetHigh()
         {
-            SoftPwmWrite(_pin, pulse);
+            _gpioController.Write(_pin, PinValue.High);
+            _highTicker.Wait();
+        }
+
+        private void SetLow()
+        {
+            _gpioController.Write(_pin, PinValue.Low);
+            _lowTicker.Wait();
         }
     }
 }

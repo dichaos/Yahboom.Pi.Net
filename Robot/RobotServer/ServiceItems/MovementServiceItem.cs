@@ -14,15 +14,14 @@ namespace RobotServer.ServiceItems
     public class MovementServiceItem : ServiceItemBase, IMovementServiceItem
     {
         private readonly IMovement _movement;
-        
-        public MovementServiceItem(ILogger<RobotService> logger, IMovement movement):base(logger)
+
+        public MovementServiceItem(ILogger<RobotService> logger, IMovement movement) : base(logger)
         {
             _movement = movement;
         }
-        
+
         public Reply Movement(MovementRequest request)
         {
-            Console.WriteLine(request.MovementDirection+ " "+request.Speed);
             try
             {
                 switch (request.MovementDirection)
@@ -47,12 +46,12 @@ namespace RobotServer.ServiceItems
                         break;
                 }
 
-                return new Reply() {Success = true};
+                return new Reply {Success = true};
             }
             catch (Exception ex)
             {
                 _logger.Log(LogLevel.Error, ex, "Error with movement");
-                return new Reply() {Success = false};
+                return new Reply {Success = false};
             }
         }
     }

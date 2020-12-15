@@ -5,53 +5,54 @@
              mc:Ignorable="d"
              x:Class="YahboomController.Views.Camera">
     <Border Classes="Card">
-        <Grid> 
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="800"/>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="800" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="55"/>
-                <RowDefinition Height="600"/>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="55" />
+                <RowDefinition Height="600" />
             </Grid.RowDefinitions>
-            
-            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="Camera"  Classes="Heading" HorizontalAlignment="Center"/>
-            <Button Grid.Row="1" 
-                    Grid.Column="0" 
-                    Name="CenterButton" 
-                    Classes="Primary" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Center">Center</Button>
-            
+
+            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="Camera" Classes="Heading"
+                       HorizontalAlignment="Center" />
+            <Button Grid.Row="1"
+                    Grid.Column="0"
+                    Name="CenterButton"
+                    Classes="Primary"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                Center
+            </Button>
+
             <Slider Name="HorizontalSlider"
-                    Grid.Row="1" 
-                    Grid.Column="1" 
-                    Minimum="0" 
-                    Maximum="100" 
-                    Value="50" 
-                    TickFrequency="1" 
-                    IsSnapToTickEnabled="False" 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Minimum="500"
+                    Maximum="2500"
+                    Value="1500"
+                    TickFrequency="1"
+                    IsSnapToTickEnabled="False"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Width="800"
-                    ></Slider>
-            
+                    Width="800" />
+
             <Slider Name="VerticalSlider"
-                    Grid.Row="2" 
-                    Grid.Column="0" 
-                    Minimum="0" 
-                    Maximum="100" 
-                    Value="50" 
-                    TickFrequency="1" 
-                    IsSnapToTickEnabled="False" 
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Minimum="500"
+                    Maximum="2500"
+                    Value="1500"
+                    TickFrequency="1"
+                    IsSnapToTickEnabled="False"
                     Orientation="Vertical"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Height="600"
-                    ></Slider>
-            
+                    Height="600" />
+
             <Image Grid.Row="2" Grid.Column="1" Width="800"
                    Height="600"
                    Source="{Binding Image}" />

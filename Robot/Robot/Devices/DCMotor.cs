@@ -1,26 +1,24 @@
 using System;
 using System.Device.Gpio;
+using Robot.PWM;
 
 namespace Robot.Devices
 {
     public class DCMotor : IDisposable
     {
-        private readonly int _speedPin;
+        private readonly GpioController _gpioController;
         private readonly int _pin1;
         private readonly int _pin2;
-        private readonly GpioController _gpioController;
-        private readonly PWM.PWM _pwm;
-        
+        private readonly PWMWiringPi _pwmWiringPi;
+
         public DCMotor(int speedPin, int pin1, int pin2, GpioController gpioController)
         {
-            _speedPin = speedPin;
             _pin1 = pin1;
             _pin2 = pin2;
             _gpioController = gpioController;
-            
-            //_pwm = new PWM.PWM(gpioController, _speedPin, MinPulseWidth, MaxPulseWidth);
-            _pwm = new PWM.PWM(_speedPin);
-            
+
+            _pwmWiringPi = new PWMWiringPi(speedPin);
+
             gpioController.OpenPin(_pin1, PinMode.Output);
             gpioController.Write(_pin1, PinValue.Low);
 
@@ -28,9 +26,15 @@ namespace Robot.Devices
             gpioController.Write(_pin2, PinValue.Low);
         }
 
+        public void Dispose()
+        {
+            Stop();
+            _pwmWiringPi.Dispose();
+        }
+
         public void SetSpeed(int speed)
         {
-            _pwm.SetDutyCycle(speed);
+            _pwmWiringPi.SetDutyCycle(speed);
         }
 
         public void Backwards()
@@ -49,12 +53,6 @@ namespace Robot.Devices
         {
             _gpioController.Write(_pin1, PinValue.Low);
             _gpioController.Write(_pin2, PinValue.Low);
-        }
-
-        public void Dispose()
-        {
-            Stop();
-            _pwm.Dispose();
         }
     }
 }

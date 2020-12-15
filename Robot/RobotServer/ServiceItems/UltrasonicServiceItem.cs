@@ -19,32 +19,32 @@ namespace RobotServer.ServiceItems
     {
         private readonly IUltrasonic _ultrasonic;
 
-        public UltrasonicServiceItem(ILogger<RobotService> logger, IUltrasonic ultrasonic):base(logger)
+        public UltrasonicServiceItem(ILogger<RobotService> logger, IUltrasonic ultrasonic) : base(logger)
         {
             _ultrasonic = ultrasonic;
         }
-        
+
         public Reply UltrasonicLeftRight(ServoRequest request)
         {
             try
             {
                 _ultrasonic.SetRadiance(request.Degree);
-                return new Reply() {Success = true};
+                return new Reply {Success = true};
             }
             catch (Exception ex)
             {
                 _logger.Log(LogLevel.Error, ex, "Error reading ultrasonic value");
-                return new Reply() {Success = false};
+                return new Reply {Success = false};
             }
         }
-        
+
         public async Task UltrasonicStream(IServerStreamWriter<UltrasonicData> responseStream, CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {
                 try
                 {
-                    var data = new UltrasonicData()
+                    var data = new UltrasonicData
                     {
                         Value = _ultrasonic.ReadValue()
                     };
@@ -60,15 +60,15 @@ namespace RobotServer.ServiceItems
                     }
                     catch (OperationCanceledException)
                     {
-                        
                     }
+
                 }
                 catch (Exception ex)
                 {
                     _logger.Log(LogLevel.Error, ex, "Error reading ultrasonic");
                 }
 
-                Task.Delay(TimeSpan.FromSeconds(1), token).Wait(token);
+                Task.Delay(TimeSpan.FromMilliseconds(1000), token).Wait(token);
             }
         }
     }

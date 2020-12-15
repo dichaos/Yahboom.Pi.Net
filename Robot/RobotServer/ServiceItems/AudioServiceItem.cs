@@ -15,31 +15,29 @@ namespace RobotServer.ServiceItems
         Task AudioStream(IServerStreamWriter<AudioData> responseStream, CancellationToken token);
     }
 
-    public class AudioServiceItem : ServiceItemBase, IAudioServiceItem 
+    public class AudioServiceItem : ServiceItemBase, IAudioServiceItem
     {
         private readonly IMicrophone _microphone;
-        
-        public AudioServiceItem(ILogger<RobotService> logger, IMicrophone microphone):base(logger)
+
+        public AudioServiceItem(ILogger<RobotService> logger, IMicrophone microphone) : base(logger)
         {
             _microphone = microphone;
         }
-        
+
         public async Task AudioStream(IServerStreamWriter<AudioData> responseStream, CancellationToken token)
         {
             while (!token.IsCancellationRequested)
-            {
                 try
                 {
-                    await responseStream.WriteAsync(new AudioData()
+                    await responseStream.WriteAsync(new AudioData
                     {
                         Data = {_microphone.Read().Select(x => (int) x)}
                     });
                 }
                 catch (Exception ex)
                 {
-                    _logger.Log(LogLevel.Error, ex, "Error in audiostream");
+                    _logger.Log(LogLevel.Error, ex, "Error in audio stream");
                 }
-            }
         }
     }
 }

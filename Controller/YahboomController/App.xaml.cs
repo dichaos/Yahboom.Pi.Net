@@ -16,12 +16,10 @@ namespace YahboomController
         public override void OnFrameworkInitializationCompleted()
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(new Client("http://192.168.1.28:5000")),
+                    DataContext = new MainWindowViewModel(new Client("http://192.168.1.28:5000"))
                 };
-            }
 
             base.OnFrameworkInitializationCompleted();
         }
