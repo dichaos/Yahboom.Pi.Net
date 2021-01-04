@@ -1,19 +1,29 @@
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using ReactiveUI;
+using YahboomController.Media;
 
 namespace YahboomController.ViewModels
 {
-    public class CameraViewModel : ClientViewModel
+    public class CameraViewModel : ClientViewModel, IDisposable
     {
         private IBitmap _latBitmap;
+        private SoundPlayer _player;
 
+        private static object _lock = new object();
+        
         public CameraViewModel(CancellationToken token, Client c) : base(c)
         {
-            var task = c.GetVideo(token, Process);
-            task.Start();
+            _player = new SoundPlayer(); 
+            
+            var videoTask = c.GetVideo(token, ProcessVideo);
+            videoTask.Start();
+
+            var audioTask = c.GetAudio(token, ProcessAudio);
+            audioTask.Start();
         }
 
         public IBitmap Image
@@ -22,11 +32,21 @@ namespace YahboomController.ViewModels
             set => this.RaiseAndSetIfChanged(ref _latBitmap, value);
         }
 
-        private void Process(byte[] image)
+        private void ProcessVideo(byte[] image)
         {
-            using (var ms = new MemoryStream(image))
+            using var ms = new MemoryStream(image);
+            Image = new Bitmap(ms);
+        }
+
+        private void ProcessAudio(short[] audio)
+        {
+            try
             {
-                Image = new Bitmap(ms);
+                _player.Play(audio);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
         }
 
@@ -38,6 +58,11 @@ namespace YahboomController.ViewModels
         public async Task SetVertical(int angle)
         {
             await Client.SetCameraVertical(angle);
+        }
+
+        public void Dispose()
+        {
+            _player.Dispose();
         }
     }
 }

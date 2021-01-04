@@ -18,11 +18,9 @@ namespace YahboomController.Views
             _horizontalSlider = this.FindControl<Slider>("HorizontalSlider");
             _verticalSlider = this.FindControl<Slider>("VerticalSlider");
             _button = this.FindControl<Button>("CenterButton");
-
+            
             _horizontalSlider.PointerCaptureLost += async (sender, args) => { await ChangeHorizontal(); };
-
             _verticalSlider.PointerCaptureLost += async (sender, args) => { await ChangeVertical(); };
-
             _button.Click += async (sender, args) => { await Center(); };
         }
 

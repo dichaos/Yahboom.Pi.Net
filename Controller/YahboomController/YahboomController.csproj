@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="**\*.xaml.cs">
@@ -26,5 +27,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Contract\Contract.csproj" />
+    <ProjectReference Include="..\YahboomController.Media\YahboomController.Media.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Extensions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+      <HintPath>..\..\..\..\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Windows.Extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

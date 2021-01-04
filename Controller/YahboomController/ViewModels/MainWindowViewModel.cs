@@ -1,8 +1,9 @@
+using System;
 using System.Threading;
 
 namespace YahboomController.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, IDisposable
     {
         public readonly CancellationTokenSource source;
 
@@ -24,6 +25,11 @@ namespace YahboomController.ViewModels
         {
             source.Cancel();
             WaitHandle.WaitAny(new[] {source.Token.WaitHandle});
+        }
+
+        public void Dispose()
+        {
+            Camera.Dispose();
         }
     }
 }
